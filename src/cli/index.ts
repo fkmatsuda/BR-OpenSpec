@@ -90,12 +90,11 @@ program.hook('postAction', async () => {
 });
 
 const availableToolIds = AI_TOOLS.filter((tool) => tool.skillsDir).map((tool) => tool.value);
-const toolsOptionDescription = `Configura ferramentas de IA não interativamente. Use "all", "none" ou uma lista separada por vírgula: ${availableToolIds.join(', ')}`;
 
 program
   .command('init [path]')
   .description(CLI_DESCRIPTIONS.init)
-  .option('--tools <tools>', toolsOptionDescription)
+  .option('--tools <tools>', CLI_DESCRIPTIONS.tools(availableToolIds.join(', ')))
   .option('--force', CLI_DESCRIPTIONS.force)
   .option('--profile <profile>', CLI_DESCRIPTIONS.profile)
   .action(async (targetPath = '.', options?: { tools?: string; force?: boolean; profile?: string }) => {
@@ -137,8 +136,8 @@ program
 program
   .command('experimental', { hidden: true })
   .description(CLI_DESCRIPTIONS.experimental)
-  .option('--tool <tool-id>', 'Target AI tool (maps to --tools)')
-  .option('--no-interactive', 'Desativa prompts interativos')
+  .option('--tool <tool-id>', CLI_DESCRIPTIONS.experimentalTool)
+  .option('--no-interactive', CLI_DESCRIPTIONS.experimentalNoInteractive)
   .action(async (options?: { tool?: string; noInteractive?: boolean }) => {
     try {
       console.log(CLI_MESSAGES.experimentalDeprecated);
@@ -158,7 +157,7 @@ program
 program
   .command('update [path]')
   .description(CLI_DESCRIPTIONS.update)
-  .option('--force', 'Força atualização mesmo quando as ferramentas estão atualizadas')
+  .option('--force', CLI_DESCRIPTIONS.updateForce)
   .action(async (targetPath = '.', options?: { force?: boolean }) => {
     try {
       const resolvedPath = path.resolve(targetPath);
@@ -174,10 +173,10 @@ program
 program
   .command('list')
   .description(CLI_DESCRIPTIONS.list)
-  .option('--specs', 'Lista especificações em vez de alterações')
-  .option('--changes', 'Lista alterações explicitamente (padrão)')
-  .option('--sort <order>', 'Ordem de classificação: "recent" (padrão) ou "name"', 'recent')
-  .option('--json', 'Saída como JSON (para uso programático)')
+  .option('--specs', CLI_DESCRIPTIONS.listSpecs)
+  .option('--changes', CLI_DESCRIPTIONS.listChanges)
+  .option('--sort <order>', CLI_DESCRIPTIONS.listSort, 'recent')
+  .option('--json', CLI_DESCRIPTIONS.listJson)
   .action(async (options?: { specs?: boolean; changes?: boolean; sort?: string; json?: boolean }) => {
     try {
       const listCommand = new ListCommand();
@@ -218,10 +217,10 @@ changeCmd.hook('preAction', () => {
 changeCmd
   .command('show [change-name]')
   .description(CLI_DESCRIPTIONS.changeShow)
-  .option('--json', 'Saída como JSON')
-  .option('--deltas-only', 'Exibe apenas deltas (somente JSON)')
-  .option('--requirements-only', 'Alias para --deltas-only (descontinuado)')
-  .option('--no-interactive', 'Disable interactive prompts')
+  .option('--json', CLI_DESCRIPTIONS.changeShowJson)
+  .option('--deltas-only', CLI_DESCRIPTIONS.changeShowDeltasOnly)
+  .option('--requirements-only', CLI_DESCRIPTIONS.changeShowRequirementsOnly)
+  .option('--no-interactive', CLI_DESCRIPTIONS.changeShowNoInteractive)
   .action(async (changeName?: string, options?: { json?: boolean; requirementsOnly?: boolean; deltasOnly?: boolean; noInteractive?: boolean }) => {
     try {
       const changeCommand = new ChangeCommand();
@@ -235,8 +234,8 @@ changeCmd
 changeCmd
   .command('list')
   .description(CLI_DESCRIPTIONS.changeList)
-  .option('--json', 'Saída como JSON')
-  .option('--long', 'Show id and title with counts')
+  .option('--json', CLI_DESCRIPTIONS.changeListJson)
+  .option('--long', CLI_DESCRIPTIONS.changeListLong)
   .action(async (options?: { json?: boolean; long?: boolean }) => {
     try {
       console.error(CLI_MESSAGES.changeListDeprecated);
@@ -251,9 +250,9 @@ changeCmd
 changeCmd
   .command('validate [change-name]')
   .description(CLI_DESCRIPTIONS.changeValidate)
-  .option('--strict', 'Ativa modo de validação estrita')
-  .option('--json', 'Saída do relatório de validação como JSON')
-  .option('--no-interactive', 'Disable interactive prompts')
+  .option('--strict', CLI_DESCRIPTIONS.changeValidateStrict)
+  .option('--json', CLI_DESCRIPTIONS.changeValidateJson)
+  .option('--no-interactive', CLI_DESCRIPTIONS.changeValidateNoInteractive)
   .action(async (changeName?: string, options?: { strict?: boolean; json?: boolean; noInteractive?: boolean }) => {
     try {
       const changeCommand = new ChangeCommand();
@@ -270,9 +269,9 @@ changeCmd
 program
   .command('archive [change-name]')
   .description(CLI_DESCRIPTIONS.archive)
-  .option('-y, --yes', 'Pula confirmações interativas')
-  .option('--skip-specs', 'Ignora operações de atualização de especificação (útil para alterações de infraestrutura, ferramentas ou apenas documentação)')
-  .option('--no-validate', 'Ignora validação (não recomendado, requer confirmação)')
+  .option('-y, --yes', CLI_DESCRIPTIONS.archiveYes)
+  .option('--skip-specs', CLI_DESCRIPTIONS.archiveSkipSpecs)
+  .option('--no-validate', CLI_DESCRIPTIONS.archiveNoValidate)
   .action(async (changeName?: string, options?: { yes?: boolean; skipSpecs?: boolean; noValidate?: boolean; validate?: boolean }) => {
     try {
       const archiveCommand = new ArchiveCommand();
@@ -293,14 +292,14 @@ registerToolsCommand(program);
 program
   .command('validate [item-name]')
   .description(CLI_DESCRIPTIONS.validate)
-  .option('--all', 'Valida todas as alterações e especificações')
-  .option('--changes', 'Valida todas as alterações')
-  .option('--specs', 'Valida todas as especificações')
-  .option('--type <type>', 'Especifica o tipo do item quando ambíguo: change|spec')
-  .option('--strict', 'Ativa modo de validação estrita')
-  .option('--json', 'Saída dos resultados de validação como JSON')
-  .option('--concurrency <n>', 'Máximo de validações concorrentes (padrão: env OPENSPEC_CONCURRENCY ou 6)')
-  .option('--no-interactive', 'Disable interactive prompts')
+  .option('--all', CLI_DESCRIPTIONS.validateAll)
+  .option('--changes', CLI_DESCRIPTIONS.validateChanges)
+  .option('--specs', CLI_DESCRIPTIONS.validateSpecs)
+  .option('--type <type>', CLI_DESCRIPTIONS.validateType)
+  .option('--strict', CLI_DESCRIPTIONS.validateStrict)
+  .option('--json', CLI_DESCRIPTIONS.validateJson)
+  .option('--concurrency <n>', CLI_DESCRIPTIONS.validateConcurrency)
+  .option('--no-interactive', CLI_DESCRIPTIONS.validateNoInteractive)
   .action(async (itemName?: string, options?: { all?: boolean; changes?: boolean; specs?: boolean; type?: string; strict?: boolean; json?: boolean; noInteractive?: boolean; concurrency?: string }) => {
     try {
       const validateCommand = new ValidateCommand();
@@ -316,16 +315,16 @@ program
 program
   .command('show [item-name]')
   .description(CLI_DESCRIPTIONS.show)
-  .option('--json', 'Saída como JSON')
-  .option('--type <type>', 'Especifica o tipo do item quando ambíguo: change|spec')
-  .option('--no-interactive', 'Disable interactive prompts')
+  .option('--json', CLI_DESCRIPTIONS.showJson)
+  .option('--type <type>', CLI_DESCRIPTIONS.showType)
+  .option('--no-interactive', CLI_DESCRIPTIONS.showNoInteractive)
   // change-only flags
-  .option('--deltas-only', 'Exibe apenas deltas (somente JSON, alteração)')
-  .option('--requirements-only', 'Alias para --deltas-only (descontinuado, alteração)')
+  .option('--deltas-only', CLI_DESCRIPTIONS.showDeltasOnly)
+  .option('--requirements-only', CLI_DESCRIPTIONS.showRequirementsOnly)
   // spec-only flags
-  .option('--requirements', 'Somente JSON: Exibe apenas requisitos (exclui cenários)')
-  .option('--no-scenarios', 'Somente JSON: Exclui conteúdo de cenários')
-  .option('-r, --requirement <id>', 'Somente JSON: Exibe requisito específico pelo ID (base 1)')
+  .option('--requirements', CLI_DESCRIPTIONS.showRequirements)
+  .option('--no-scenarios', CLI_DESCRIPTIONS.showNoScenarios)
+  .option('-r, --requirement <id>', CLI_DESCRIPTIONS.showRequirement)
   // allow unknown options to pass-through to underlying command implementation
   .allowUnknownOption(true)
   .action(async (itemName?: string, options?: { json?: boolean; type?: string; noInteractive?: boolean; [k: string]: any }) => {
@@ -343,7 +342,7 @@ program
 program
   .command('feedback <message>')
   .description(CLI_DESCRIPTIONS.feedback)
-  .option('--body <text>', 'Descrição detalhada do feedback')
+  .option('--body <text>', CLI_DESCRIPTIONS.feedbackBody)
   .action(async (message: string, options?: { body?: string }) => {
     try {
       const feedbackCommand = new FeedbackCommand();
@@ -377,7 +376,7 @@ completionCmd
 completionCmd
   .command('install [shell]')
   .description(CLI_DESCRIPTIONS.completionInstall)
-  .option('--verbose', 'Mostra saída detalhada da instalação')
+  .option('--verbose', CLI_DESCRIPTIONS.completionVerbose)
   .action(async (shell?: string, options?: { verbose?: boolean }) => {
     try {
       const completionCommand = new CompletionCommand();
@@ -426,9 +425,9 @@ program
 program
   .command('status')
   .description(CLI_DESCRIPTIONS.status)
-  .option('--change <id>', 'Nome da alteração para exibir o status')
-  .option('--schema <name>', 'Sobrescreve o esquema (auto-detectado do config.yaml)')
-  .option('--json', 'Output as JSON')
+  .option('--change <id>', CLI_DESCRIPTIONS.statusChange)
+  .option('--schema <name>', CLI_DESCRIPTIONS.statusSchema)
+  .option('--json', CLI_DESCRIPTIONS.statusJson)
   .action(async (options: StatusOptions) => {
     try {
       await statusCommand(options);
@@ -443,9 +442,9 @@ program
 program
   .command('instructions [artifact]')
   .description(CLI_DESCRIPTIONS.instructions)
-  .option('--change <id>', 'Nome da alteração')
-  .option('--schema <name>', 'Sobrescreve o esquema (auto-detectado do config.yaml)')
-  .option('--json', 'Output as JSON')
+  .option('--change <id>', CLI_DESCRIPTIONS.instructionsChange)
+  .option('--schema <name>', CLI_DESCRIPTIONS.instructionsSchema)
+  .option('--json', CLI_DESCRIPTIONS.instructionsJson)
   .action(async (artifactId: string | undefined, options: InstructionsOptions) => {
     try {
       // Special case: "apply" is not an artifact, but a command to get apply instructions
@@ -465,8 +464,8 @@ program
 program
   .command('templates')
   .description(CLI_DESCRIPTIONS.templates)
-  .option('--schema <name>', `Esquema a usar (padrão: ${DEFAULT_SCHEMA})`)
-  .option('--json', 'Saída como JSON mapeando IDs de artefatos para caminhos de templates')
+  .option('--schema <name>', CLI_DESCRIPTIONS.templatesSchema(DEFAULT_SCHEMA))
+  .option('--json', CLI_DESCRIPTIONS.templatesJson)
   .action(async (options: TemplatesOptions) => {
     try {
       await templatesCommand(options);
@@ -481,7 +480,7 @@ program
 program
   .command('schemas')
   .description(CLI_DESCRIPTIONS.schemas)
-  .option('--json', 'Saída como JSON (para uso por agentes)')
+  .option('--json', CLI_DESCRIPTIONS.schemasJson)
   .action(async (options: SchemasOptions) => {
     try {
       await schemasCommand(options);
@@ -498,8 +497,8 @@ const newCmd = program.command('new').description(CLI_DESCRIPTIONS.new);
 newCmd
   .command('change <name>')
   .description(CLI_DESCRIPTIONS.newChange)
-  .option('--description <text>', 'Descrição a adicionar ao README.md')
-  .option('--schema <name>', `Esquema de fluxo de trabalho a usar (padrão: ${DEFAULT_SCHEMA})`)
+  .option('--description <text>', CLI_DESCRIPTIONS.newChangeDescription)
+  .option('--schema <name>', CLI_DESCRIPTIONS.newChangeSchema(DEFAULT_SCHEMA))
   .action(async (name: string, options: NewChangeOptions) => {
     try {
       await newChangeCommand(name, options);

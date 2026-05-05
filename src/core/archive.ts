@@ -204,7 +204,7 @@ export class ArchiveCommand {
       if (specUpdates.length > 0) {
         console.log(`\n${ARCHIVE_MESSAGES.specsToUpdate}`);
         for (const update of specUpdates) {
-          const status = update.exists ? 'atualizar' : 'criar';
+          const status = update.exists ? ARCHIVE_MESSAGES.actionUpdate : ARCHIVE_MESSAGES.actionCreate;
           const capability = path.basename(path.dirname(update.target));
           console.log(ARCHIVE_MESSAGES.specUpdateStatus(capability, status));
         }

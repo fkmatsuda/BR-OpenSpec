@@ -883,12 +883,12 @@ ${OPENSPEC_MARKERS.end}
 
       // Should show v1 upgrade message
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Upgrading to the new BR-OpenSpec')
+        expect.stringContaining('Atualizando para o novo BR-OpenSpec')
       );
 
       // Should show marker removal message (config files are never deleted, only have markers removed)
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removed BR-OpenSpec markers from CLAUDE.md')
+        expect.stringContaining('Marcadores BR-OpenSpec removidos de CLAUDE.md')
       );
 
       // Config file should still exist (never deleted)
@@ -930,7 +930,7 @@ ${OPENSPEC_MARKERS.end}
 
       // Should show v1 upgrade message
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Upgrading to the new BR-OpenSpec')
+        expect.stringContaining('Atualizando para o novo BR-OpenSpec')
       );
 
       // Should show warning about --force
@@ -979,7 +979,7 @@ ${OPENSPEC_MARKERS.end}
 
       // Should show cleanup message for directory
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removed .claude/commands/openspec/')
+        expect.stringContaining('Removido .claude/commands/openspec/')
       );
 
       // Legacy directory should be deleted
@@ -1014,7 +1014,7 @@ ${OPENSPEC_MARKERS.end}
 
       // Should show cleanup message
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removed openspec/AGENTS.md')
+        expect.stringContaining('Removido openspec/AGENTS.md')
       );
 
       // Legacy file should be deleted
@@ -1046,7 +1046,7 @@ ${OPENSPEC_MARKERS.end}
         call.map(arg => String(arg)).join(' ')
       );
       const hasLegacyMessage = calls.some(call =>
-        call.includes('Upgrading to the new BR-OpenSpec')
+        call.includes('Atualizando para o novo BR-OpenSpec')
       );
       expect(hasLegacyMessage).toBe(false);
 
@@ -1087,7 +1087,7 @@ More user content after markers.
 
       // Should show marker removal message
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removed BR-OpenSpec markers from CLAUDE.md')
+        expect.stringContaining('Marcadores BR-OpenSpec removidos de CLAUDE.md')
       );
 
       // File should still exist
@@ -1217,7 +1217,7 @@ More user content after markers.
 
       // Legacy cleanup should happen
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removed .claude/commands/openspec/')
+        expect.stringContaining('Removido .claude/commands/openspec/')
       );
 
       // Should NOT show "Ferramentas detectadas de artefatos legados" because claude is already configured

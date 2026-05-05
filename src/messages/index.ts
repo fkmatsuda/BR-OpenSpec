@@ -41,9 +41,106 @@ export const CLI_DESCRIPTIONS = {
   newChange: 'Cria um novo diretório de alteração',
   // Opções globais
   noColor: 'Desativa cores na saída',
-  tools: 'Configura ferramentas de IA não interativamente. Use "all", "none" ou uma lista separada por vírgula',
+  tools: (availableToolIds: string) => `Configura ferramentas de IA não interativamente. Use "all", "none" ou uma lista separada por vírgula: ${availableToolIds}`,
   force: 'Limpa arquivos legados automaticamente sem perguntar',
   profile: 'Sobrescreve o perfil da configuração global (core ou custom)',
+
+  // Opções — init / experimental
+  experimentalTool: 'Ferramenta de IA alvo (mapeia para --tools)',
+  experimentalNoInteractive: 'Desativa prompts interativos',
+  toolsOption: 'Configura ferramentas de IA não interativamente. Use "all", "none" ou IDs separados por vírgula',
+
+  // Opções — update
+  updateForce: 'Força atualização mesmo quando as ferramentas estão atualizadas',
+
+  // Opções — list
+  listSpecs: 'Lista especificações em vez de alterações',
+  listChanges: 'Lista alterações explicitamente (padrão)',
+  listSort: 'Ordem de classificação: "recent" (padrão) ou "name"',
+  listJson: 'Saída como JSON (para uso programático)',
+
+  // Opções — change show
+  changeShowJson: 'Saída como JSON',
+  changeShowDeltasOnly: 'Exibe apenas deltas (somente JSON)',
+  changeShowRequirementsOnly: 'Alias para --deltas-only (descontinuado)',
+  changeShowNoInteractive: 'Desativa prompts interativos',
+
+  // Opções — change validate
+  changeValidateStrict: 'Ativa modo de validação estrita',
+  changeValidateJson: 'Saída do relatório de validação como JSON',
+  changeValidateNoInteractive: 'Desativa prompts interativos',
+
+  // Opções — change list
+  changeListJson: 'Saída como JSON',
+  changeListLong: 'Exibe ID e título com contagens',
+
+  // Opções — archive
+  archiveYes: 'Pula confirmações interativas',
+  archiveSkipSpecs: 'Ignora operações de atualização de especificação (útil para alterações de infraestrutura, ferramentas ou apenas documentação)',
+  archiveNoValidate: 'Ignora validação (não recomendado, requer confirmação)',
+
+  // Opções — validate
+  validateAll: 'Valida todas as alterações e especificações',
+  validateChanges: 'Valida todas as alterações',
+  validateSpecs: 'Valida todas as especificações',
+  validateType: 'Especifica o tipo do item quando ambíguo: change|spec',
+  validateStrict: 'Ativa modo de validação estrita',
+  validateJson: 'Saída dos resultados de validação como JSON',
+  validateConcurrency: 'Máximo de validações concorrentes (padrão: env OPENSPEC_CONCURRENCY ou 6)',
+  validateNoInteractive: 'Desativa prompts interativos',
+
+  // Opções — show
+  showJson: 'Saída como JSON',
+  showType: 'Especifica o tipo do item quando ambíguo: change|spec',
+  showDeltasOnly: 'Exibe apenas deltas (somente JSON, alteração)',
+  showRequirementsOnly: 'Alias para --deltas-only (descontinuado, alteração)',
+  showRequirements: 'Somente JSON: Exibe apenas requisitos (exclui cenários)',
+  showNoScenarios: 'Somente JSON: Exclui conteúdo de cenários',
+  showRequirement: 'Somente JSON: Exibe requisito específico pelo ID (base 1)',
+  showNoInteractive: 'Desativa prompts interativos',
+
+  // Opções — feedback
+  feedbackBody: 'Descrição detalhada do feedback',
+
+  // Opções — completion install
+  completionVerbose: 'Mostra saída detalhada da instalação',
+
+  // Opções — status
+  statusChange: 'Nome da alteração para exibir o status',
+  statusSchema: 'Sobrescreve o esquema (auto-detectado do config.yaml)',
+  statusJson: 'Saída como JSON',
+
+  // Opções — instructions
+  instructionsChange: 'Nome da alteração',
+  instructionsSchema: 'Sobrescreve o esquema (auto-detectado do config.yaml)',
+  instructionsJson: 'Saída como JSON',
+
+  // Opções — templates
+  templatesSchema: (defaultSchema: string) => `Esquema a usar (padrão: ${defaultSchema})`,
+  templatesJson: 'Saída como JSON mapeando IDs de artefatos para caminhos de templates',
+
+  // Opções — schemas
+  schemasJson: 'Saída como JSON (para uso por agentes)',
+
+  // Opções — new change
+  newChangeDescription: 'Descrição a adicionar ao README.md',
+  newChangeSchema: (defaultSchema: string) => `Esquema de fluxo de trabalho a usar (padrão: ${defaultSchema})`,
+
+  // Opções — spec show
+  specShowJson: 'Saída como JSON',
+  specShowRequirements: 'Somente JSON: Exibe apenas requisitos (exclui cenários)',
+  specShowNoScenarios: 'Somente JSON: Exclui conteúdo de cenários',
+  specShowRequirement: 'Somente JSON: Exibe requisito específico pelo ID (base 1)',
+  specShowNoInteractive: 'Desativa prompts interativos',
+
+  // Opções — spec list
+  specListJson: 'Saída como JSON',
+  specListLong: 'Exibe id e título com contagens',
+
+  // Opções — spec validate
+  specValidateStrict: 'Ativa modo de validação estrita',
+  specValidateJson: 'Saída do relatório de validação como JSON',
+  specValidateNoInteractive: 'Desativa prompts interativos',
 };
 
 export const CLI_MESSAGES = {
@@ -236,6 +333,8 @@ export const ARCHIVE_MESSAGES = {
   incompleteTasksContinuing: (count: number) => `Aviso: ${count} tarefa(s) incompleta(s) encontrada(s). Continuando devido à flag --yes.`,
   skipSpecUpdates: 'Ignorando atualizações de especificação (flag --skip-specs fornecida).',
   specsToUpdate: 'Especificações para atualizar:',
+  actionUpdate: 'atualizar',
+  actionCreate: 'criar',
   specUpdateStatus: (capability: string, status: string) => `  ${capability}: ${status}`,
   proceedWithSpecUpdates: 'Prosseguir com as atualizações de especificação?',
   skipSpecUpdatesProceeding: 'Ignorando atualizações de especificação. Prosseguindo com o arquivamento.',
@@ -498,6 +597,8 @@ export const SCHEMA_MESSAGES = {
   customizeSchemaAt: 'Agora você pode customizar o esquema em:',
   forkFailed: 'Falha na cópia',
   descriptionOption: 'Descrição do esquema',
+  artifactsOption: 'IDs de artefatos separados por vírgula (proposal,specs,design,tasks)',
+  defaultSchemaDescription: (name: string) => `Esquema de fluxo de trabalho customizado para ${name}`,
   defaultOption: 'Define como esquema padrão do projeto',
   noDefaultOption: 'Não perguntar para definir como padrão',
   forceOption2: 'Sobrescreve o esquema existente',
@@ -822,6 +923,43 @@ export const MIGRATION_MESSAGES = {
 };
 
 // ═══════════════════════════════════════════════════════════
+// Core — Limpeza de Legados (src/core/legacy-cleanup.ts)
+// ═══════════════════════════════════════════════════════════
+
+export const LEGACY_CLEANUP_MESSAGES = {
+  failedToModify: (file: string, error: string) => `Falha ao modificar ${file}: ${error}`,
+  failedToDeleteDir: (dir: string, error: string) => `Falha ao excluir diretório ${dir}: ${error}`,
+  failedToDeleteFile: (file: string, error: string) => `Falha ao excluir ${file}: ${error}`,
+  failedToDeleteOpenspecAgents: (error: string) => `Falha ao excluir openspec/AGENTS.md: ${error}`,
+  cleanedUpHeader: 'Arquivos legados limpos:',
+  removedFile: (file: string) => `  ✓ Removido ${file}`,
+  removedDir: (dir: string) => `  ✓ Removido ${dir}/ (substituído por /opsx:*)`,
+  removedMarkers: (file: string) => `  ✓ Marcadores BR-OpenSpec removidos de ${file}`,
+  errorsHeader: 'Erros durante a limpeza:',
+  errorItem: (error: string) => `  ⚠ ${error}`,
+  explanationReplacedBySkills: 'substituído por skills/',
+  explanationReplacedByToolSkills: (toolDir: string) => `substituído por ${toolDir}/skills/`,
+  explanationObsoleteWorkflow: 'arquivo de fluxo de trabalho obsoleto',
+  explanationRemovingMarkers: 'removendo marcadores BR-OpenSpec',
+  upgradeHeader: 'Atualizando para o novo BR-OpenSpec',
+  upgradeLine1: 'O BR-OpenSpec agora usa agent skills, o padrão emergente entre agentes de codificação',
+  upgradeLine2: 'Isso simplifica sua configuração enquanto mantém tudo funcionando',
+  upgradeLine3: 'como antes.',
+  filesToRemoveHeader: 'Arquivos a remover',
+  filesToRemoveSubheader: 'Nenhum conteúdo do usuário a preservar:',
+  filesToUpdateHeader: 'Arquivos a atualizar',
+  filesToUpdateSubheader: 'Os marcadores BR-OpenSpec serão removidos, seu conteúdo será preservado:',
+  needsAttention: 'Precisa da sua atenção',
+  projectMdItem: '  • openspec/project.md',
+  projectMdWontDelete: '    Não excluiremos este arquivo. Ele pode conter contexto útil do projeto.',
+  projectMdContextLine1: '    O novo openspec/config.yaml tem uma seção "context:" para contexto',
+  projectMdContextLine2: '    de planejamento. Isso é incluído em toda solicitação BR-OpenSpec e funciona mais',
+  projectMdContextLine3: '    confiavelmente que a abordagem antiga do project.md.',
+  projectMdReviewLine1: '    Revise o project.md, mova qualquer conteúdo útil para a seção context',
+  projectMdReviewLine2: '    do config.yaml, depois exclua o arquivo quando estiver pronto.',
+};
+
+// ═══════════════════════════════════════════════════════════
 // Core — Configuração do Projeto (src/core/project-config.ts)
 // ═══════════════════════════════════════════════════════════
 
@@ -833,4 +971,1019 @@ export const PROJECT_CONFIG_MESSAGES = {
   emptyRulesForArtifact: (artifactId: string) => `Algumas regras para '${artifactId}' são strings vazias, ignorando-as`,
   rulesMustBeArrayOfStrings: (artifactId: string) => `Regras para '${artifactId}' devem ser um array de strings, ignorando as regras deste artefato`,
   invalidRulesField: "Campo 'rules' inválido na configuração (deve ser um objeto)",
+};
+
+
+// ═══════════════════════════════════════════════════════════
+// Templates de Workflow — Nova Change (src/core/templates/workflows/new-change.ts)
+// ═══════════════════════════════════════════════════════════
+
+export const NEW_CHANGE_TEMPLATE_MESSAGES = {
+  skillDescription: 'Inicie uma nova change do BR-OpenSpec usando o workflow experimental de artifacts. Use quando o usuário quiser criar uma nova funcionalidade, correção ou modificação com uma abordagem estruturada passo a passo.',
+  skillInstructions: `Inicie uma nova change usando a abordagem experimental orientada a artifacts.
+
+**Entrada**: A solicitação do usuário deve incluir um nome de change (kebab-case) OU uma descrição do que ele quer construir.
+
+**Passos**
+
+1. **Se nenhuma entrada clara for fornecida, pergunte o que ele quer construir**
+
+   Use a ferramenta **AskUserQuestion** (aberta, sem opções pré-definidas) para perguntar:
+   > "Em qual change você quer trabalhar? Descreva o que quer construir ou corrigir."
+
+   A partir da descrição dele, derive um nome kebab-case (por exemplo, "adicionar autenticação de usuário" → \`add-user-auth\`).
+
+   **IMPORTANTE**: NÃO prossiga sem entender o que o usuário quer construir.
+
+2. **Determine o schema de workflow**
+
+   Use o schema padrão (omitir \`--schema\`) a menos que o usuário solicite explicitamente um workflow diferente.
+
+   **Use um schema diferente apenas se o usuário mencionar:**
+   - Um nome de schema específico → use \`--schema <nome>\`
+   - "mostrar workflows" ou "quais workflows" → execute \`openspec schemas --json\` e deixe-o escolher
+
+   **Caso contrário**: Omita \`--schema\` para usar o padrão.
+
+3. **Crie o diretório da change**
+   \`\`\`bash
+   openspec new change "<nome>"
+   \`\`\`
+   Adicione \`--schema <nome>\` apenas se o usuário solicitou um workflow específico.
+   Isso cria uma change com scaffold em \`openspec/changes/<nome>/\` com o schema selecionado.
+
+4. **Mostre o status dos artifacts**
+   \`\`\`bash
+   openspec status --change "<nome>"
+   \`\`\`
+   Isso mostra quais artifacts precisam ser criados e quais estão prontos (dependências satisfeitas).
+
+5. **Obtenha instruções para o primeiro artifact**
+   O primeiro artifact depende do schema (por exemplo, \`proposal\` para spec-driven).
+   Verifique a saída do status para encontrar o primeiro artifact com status "ready".
+   \`\`\`bash
+   openspec instructions <primeiro-artifact-id> --change "<nome>"
+   \`\`\`
+   Isso produz o template e contexto para criar o primeiro artifact.
+
+6. **PARE e aguarde direção do usuário**
+
+**Saída**
+
+Após completar os passos, resuma:
+- Nome da change e localização
+- Schema/workflow sendo usado e sua sequência de artifacts
+- Status atual (0/N artifacts completos)
+- O template para o primeiro artifact
+- Prompt: "Pronto para criar o primeiro artifact? Basta descrever do que se trata esta change e eu elaboro um rascunho, ou peça-me para continuar."
+
+**Guardrails**
+- NÃO crie nenhum artifact ainda - apenas mostre as instruções
+- NÃO avance além de mostrar o template do primeiro artifact
+- Se o nome for inválido (não kebab-case), peça um nome válido
+- Se uma change com aquele nome já existir, sugira continuar aquela change em vez disso
+- Passe --schema se estiver usando um workflow não padrão`,
+  skillCompatibility: 'Requer openspec CLI.',
+  opsxDescription: 'Inicie uma nova change usando o workflow experimental de artifacts (OPSX)',
+  opsxContent: `Inicie uma nova change usando a abordagem experimental orientada a artifacts.
+
+**Entrada**: O argumento após \`/opsx:new\` é o nome da change (kebab-case), OU uma descrição do que o usuário quer construir.
+
+**Passos**
+
+1. **Se nenhuma entrada for fornecida, pergunte o que ele quer construir**
+
+   Use a ferramenta **AskUserQuestion** (aberta, sem opções pré-definidas) para perguntar:
+   > "Em qual change você quer trabalhar? Descreva o que quer construir ou corrigir."
+
+   A partir da descrição dele, derive um nome kebab-case (por exemplo, "adicionar autenticação de usuário" → \`add-user-auth\`).
+
+   **IMPORTANTE**: NÃO prossiga sem entender o que o usuário quer construir.
+
+2. **Determine o schema de workflow**
+
+   Use o schema padrão (omitir \`--schema\`) a menos que o usuário solicite explicitamente um workflow diferente.
+
+   **Use um schema diferente apenas se o usuário mencionar:**
+   - Um nome de schema específico → use \`--schema <nome>\`
+   - "mostrar workflows" ou "quais workflows" → execute \`openspec schemas --json\` e deixe-o escolher
+
+   **Caso contrário**: Omita \`--schema\` para usar o padrão.
+
+3. **Crie o diretório da change**
+   \`\`\`bash
+   openspec new change "<nome>"
+   \`\`\`
+   Adicione \`--schema <nome>\` apenas se o usuário solicitou um workflow específico.
+   Isso cria uma change com scaffold em \`openspec/changes/<nome>/\` com o schema selecionado.
+
+4. **Mostre o status dos artifacts**
+   \`\`\`bash
+   openspec status --change "<nome>"
+   \`\`\`
+   Isso mostra quais artifacts precisam ser criados e quais estão prontos (dependências satisfeitas).
+
+5. **Obtenha instruções para o primeiro artifact**
+   O primeiro artifact depende do schema. Verifique a saída do status para encontrar o primeiro artifact com status "ready".
+   \`\`\`bash
+   openspec instructions <primeiro-artifact-id> --change "<nome>"
+   \`\`\`
+   Isso produz o template e contexto para criar o primeiro artifact.
+
+6. **PARE e aguarde direção do usuário**
+
+**Saída**
+
+Após completar os passos, resuma:
+- Nome da change e localização
+- Schema/workflow sendo usado e sua sequência de artifacts
+- Status atual (0/N artifacts completos)
+- O template para o primeiro artifact
+- Prompt: "Pronto para criar o primeiro artifact? Execute \`/opsx:continue\` ou apenas descreva do que se trata esta change e eu elaboro um rascunho."
+
+**Guardrails**
+- NÃO crie nenhum artifact ainda - apenas mostre as instruções
+- NÃO avance além de mostrar o template do primeiro artifact
+- Se o nome for inválido (não kebab-case), peça um nome válido
+- Se uma change com aquele nome já existir, sugira usar \`/opsx:continue\` em vez disso
+- Passe --schema se estiver usando um workflow não padrão`,
+};
+
+
+// ═══════════════════════════════════════════════════════════
+// Templates de Workflow — Onboard (src/core/templates/workflows/onboard.ts)
+// ═══════════════════════════════════════════════════════════
+
+export const ONBOARD_TEMPLATE_MESSAGES = {
+  skillDescription: 'Onboarding guiado para o BR-OpenSpec - percorra um ciclo completo de workflow com narração e trabalho real na codebase.',
+  skillCompatibility: 'Requer openspec CLI.',
+  opsxDescription: 'Onboarding guiado - percorra um ciclo completo de workflow do BR-OpenSpec com narração',
+  instructions: `Guie o usuário através de seu primeiro ciclo completo de workflow do BR-OpenSpec. Esta é uma experiência de ensino - você fará trabalho real na codebase dele enquanto explica cada passo.
+
+---
+
+## Pré-voo
+
+Antes de começar, verifique se o CLI do BR-OpenSpec está instalado:
+
+\`\`\`bash
+# Unix/macOS
+openspec --version 2>&1 || echo "CLI_NOT_INSTALLED"
+# Windows (PowerShell)
+# if (Get-Command openspec -ErrorAction SilentlyContinue) { openspec --version } else { echo "CLI_NOT_INSTALLED" }
+\`\`\`
+
+**Se o CLI não estiver instalado:**
+> O CLI do BR-OpenSpec não está instalado. Instale-o primeiro, depois volte para \`/opsx:onboard\`.
+
+Pare aqui se não estiver instalado.
+
+---
+
+## Fase 1: Boas-vindas
+
+Exiba:
+
+\`\`\`
+## Bem-vindo ao BR-OpenSpec!
+
+Eu vou te guiar através de um ciclo completo de change - da ideia à implementação - usando uma tarefa real na sua codebase. Ao longo do caminho, você aprenderá o workflow fazendo.
+
+**O que faremos:**
+1. Escolher uma tarefa pequena e real na sua codebase
+2. Explorar o problema brevemente
+3. Criar uma change (o container para nosso trabalho)
+4. Construir os artifacts: proposal → specs → design → tasks
+5. Implementar as tarefas
+6. Arquivar a change concluída
+
+**Tempo:** ~15-20 minutos
+
+Vamos começar encontrando algo para trabalhar.
+\`\`\`
+
+---
+
+## Fase 2: Seleção de Tarefa
+
+### Análise da Codebase
+
+Escaneie a codebase em busca de pequenas oportunidades de melhoria. Procure por:
+
+1. **Comentários TODO/FIXME** - Pesquise por \`TODO\`, \`FIXME\`, \`HACK\`, \`XXX\` em arquivos de código
+2. **Tratamento de erros ausente** - Blocos \`catch\` que engolem erros, operações arriscadas sem try-catch
+3. **Funções sem testes** - Relacione \`src/\` com diretórios de teste
+4. **Problemas de tipos** - Tipos \`any\` em arquivos TypeScript (\`: any\`, \`as any\`)
+5. **Artifacts de debug** - Declarações \`console.log\`, \`console.debug\`, \`debugger\` em código não-debug
+6. **Validação ausente** - Handlers de entrada de usuário sem validação
+
+Verifique também a atividade recente do git:
+\`\`\`bash
+# Unix/macOS
+git log --oneline -10 2>/dev/null || echo "Sem histórico git"
+# Windows (PowerShell)
+# git log --oneline -10 2>$null; if ($LASTEXITCODE -ne 0) { echo "Sem histórico git" }
+\`\`\`
+
+### Apresente Sugestões
+
+A partir da sua análise, apresente 3-4 sugestões específicas:
+
+\`\`\`
+## Sugestões de Tarefas
+
+Com base no escaneamento da sua codebase, aqui estão algumas boas tarefas iniciais:
+
+**1. [Tarefa mais promissora]**
+   Local: \`src/caminho/para/arquivo.ts:42\`
+   Escopo: ~1-2 arquivos, ~20-30 linhas
+   Por que é boa: [breve razão]
+
+**2. [Segunda tarefa]**
+   Local: \`src/outro/arquivo.ts\`
+   Escopo: ~1 arquivo, ~15 linhas
+   Por que é boa: [breve razão]
+
+**3. [Terceira tarefa]**
+   Local: [local]
+   Escopo: [estimativa]
+   Por que é boa: [breve razão]
+
+**4. Outra coisa?**
+   Me diga no que você gostaria de trabalhar.
+
+Qual tarefa te interessa? (Escolha um número ou descreva a sua)
+\`\`\`
+
+**Se nada for encontrado:** Volte a perguntar o que o usuário quer construir:
+> Não encontrei vitórias rápidas óbvias na sua codebase. Qual é algo pequeno que você vem querendo adicionar ou corrigir?
+
+### Guardrail de Escopo
+
+Se o usuário escolher ou descrever algo muito grande (funcionalidade principal, trabalho de vários dias):
+
+\`\`\`
+Essa é uma tarefa valiosa, mas provavelmente maior do que o ideal para sua primeira execução do BR-OpenSpec.
+
+Para aprender o workflow, menor é melhor - permite ver o ciclo completo sem ficar preso em detalhes de implementação.
+
+**Opções:**
+1. **Fatiar menor** - Qual é a menor peça útil de [tarefa dele]? Talvez apenas [fatia específica]?
+2. **Escolher outra coisa** - Uma das outras sugestões, ou uma tarefa pequena diferente?
+3. **Fazer assim mesmo** - Se você realmente quiser encarar isso, podemos. Só saiba que vai demorar mais.
+
+O que você prefere?
+\`\`\`
+
+Deixe o usuário sobrepor se insistir - este é um guardrail suave.
+
+---
+
+## Fase 3: Demonstração do Explore
+
+Uma vez que uma tarefa seja selecionada, demonstre brevemente o modo explore:
+
+\`\`\`
+Antes de criarmos uma change, deixe-me rapidamente te mostrar o **modo explore** - é como você pensa sobre problemas antes de se comprometer com uma direção.
+\`\`\`
+
+Gaste 1-2 minutos investigando o código relevante:
+- Leia o(s) arquivo(s) envolvido(s)
+- Desenhe um diagrama ASCII rápido se ajudar
+- Note quaisquer considerações
+
+\`\`\`
+## Exploração Rápida
+
+[Sua breve análise - o que você encontrou, quaisquer considerações]
+
+┌─────────────────────────────────────────┐
+│   [Opcional: diagrama ASCII se útil]    │
+└─────────────────────────────────────────┘
+
+O modo explore (\`/opsx:explore\`) é para esse tipo de pensamento - investigar antes de implementar. Você pode usá-lo a qualquer momento que precisar pensar sobre um problema.
+
+Agora vamos criar uma change para conter nosso trabalho.
+\`\`\`
+
+**PAUSA** - Aguarde confirmação do usuário antes de prosseguir.
+
+---
+
+## Fase 4: Criar a Change
+
+**EXPLIQUE:**
+\`\`\`
+## Criando uma Change
+
+Uma "change" no BR-OpenSpec é um container para todo o pensamento e planejamento em torno de uma peça de trabalho. Ela fica em \`openspec/changes/<nome>/\` e armazena seus artifacts - proposal, specs, design, tasks.
+
+Deixe-me criar uma para nossa tarefa.
+\`\`\`
+
+**FAÇA:** Crie a change com um nome kebab-case derivado:
+\`\`\`bash
+openspec new change "<nome-derivado>"
+\`\`\`
+
+**MOSTRE:**
+\`\`\`
+Criado: \`openspec/changes/<nome>/\`
+
+A estrutura de pastas:
+\`\`\`
+openspec/changes/<nome>/
+├── proposal.md    ← Por que estamos fazendo isso (vazio, vamos preencher)
+├── design.md      ← Como vamos construir (vazio)
+├── specs/         ← Requisitos detalhados (vazio)
+└── tasks.md       ← Checklist de implementação (vazio)
+\`\`\`
+
+Agora vamos preencher o primeiro artifact - a proposal.
+\`\`\`
+
+---
+
+## Fase 5: Proposal
+
+**EXPLIQUE:**
+\`\`\`
+## A Proposal
+
+A proposal captura **por que** estamos fazendo esta change e **o que** ela envolve em alto nível. É o "pitch de elevador" para o trabalho.
+
+Vou elaborar uma com base na nossa tarefa.
+\`\`\`
+
+**FAÇA:** Elabore o conteúdo da proposal (ainda não salve):
+
+\`\`\`
+Aqui está um rascunho de proposal:
+
+---
+
+## Por Que
+
+[1-2 frases explicando o problema/oportunidade]
+
+## O Que Muda
+
+[Bullet points do que será diferente]
+
+## Capabilities
+
+### Novas Capabilities
+- \`<nome-capability>\`: [breve descrição]
+
+### Capabilities Modificadas
+<!-- Se modificar comportamento existente -->
+
+## Impacto
+
+- \`src/caminho/para/arquivo.ts\`: [o que muda]
+- [outros arquivos se aplicável]
+
+---
+
+Isso captura a intenção? Posso ajustar antes de salvá-la.
+\`\`\`
+
+**PAUSA** - Aguarde aprovação/feedback do usuário.
+
+Após aprovação, salve a proposal:
+\`\`\`bash
+openspec instructions proposal --change "<nome>" --json
+\`\`\`
+Depois escreva o conteúdo em \`openspec/changes/<nome>/proposal.md\`.
+
+\`\`\`
+Proposal salva. Este é seu documento de "por que" - você sempre pode voltar e refiná-lo à medida que o entendimento evolui.
+
+Próximo: specs.
+\`\`\`
+
+---
+
+## Fase 6: Specs
+
+**EXPLIQUE:**
+\`\`\`
+## Specs
+
+Os specs definem **o que** estamos construindo em termos precisos e testáveis. Eles usam um formato de requisito/cenário que torna o comportamento esperado cristalino.
+
+Para uma tarefa pequena como esta, talvez precisemos apenas de um arquivo spec.
+\`\`\`
+
+**FAÇA:** Crie o arquivo spec:
+\`\`\`bash
+# Unix/macOS
+mkdir -p openspec/changes/<nome>/specs/<nome-capability>
+# Windows (PowerShell)
+# New-Item -ItemType Directory -Force -Path "openspec/changes/<nome>/specs/<nome-capability>"
+\`\`\`
+
+Elabore o conteúdo do spec:
+
+\`\`\`
+Aqui está o spec:
+
+---
+
+## Requisitos ADICIONADOS
+
+### Requisito: <Nome>
+
+<Descrição do que o sistema deve fazer>
+
+#### Cenário: <Nome do cenário>
+
+- **QUANDO** <condição de gatilho>
+- **ENTÃO** <resultado esperado>
+- **E** <resultado adicional se necessário>
+
+---
+
+Este formato - QUANDO/ENTÃO/E - torna os requisitos testáveis. Você pode literalmente lê-los como casos de teste.
+\`\`\`
+
+Salve em \`openspec/changes/<nome>/specs/<capability>/spec.md\`.
+
+---
+
+## Fase 7: Design
+
+**EXPLIQUE:**
+\`\`\`
+## Design
+
+O design captura **como** vamos construir - decisões técnicas, tradeoffs, abordagem.
+
+Para changes pequenas, isto pode ser breve. Tudo bem - nem toda change precisa de discussão profunda de design.
+\`\`\`
+
+**FAÇA:** Elabore design.md:
+
+\`\`\`
+Aqui está o design:
+
+---
+
+## Contexto
+
+[Contexto breve sobre o estado atual]
+
+## Objetivos / Não-Objetivos
+
+**Objetivos:**
+- [O que estamos tentando alcançar]
+
+**Não-Objetivos:**
+- [O que está explicitamente fora do escopo]
+
+## Decisões
+
+### Decisão 1: [Decisão-chave]
+
+[Explicação da abordagem e racional]
+
+---
+
+Para uma tarefa pequena, isto captura as decisões-chave sem over-engineering.
+\`\`\`
+
+Salve em \`openspec/changes/<nome>/design.md\`.
+
+---
+
+## Fase 8: Tasks
+
+**EXPLIQUE:**
+\`\`\`
+## Tasks
+
+Finalmente, quebramos o trabalho em tarefas de implementação - checkboxes que impulsionam a fase de apply.
+
+Elas devem ser pequenas, claras e em ordem lógica.
+\`\`\`
+
+**FAÇA:** Gere tarefas baseadas nos specs e design:
+
+\`\`\`
+Aqui estão as tarefas de implementação:
+
+---
+
+## 1. [Categoria ou arquivo]
+
+- [ ] 1.1 [Tarefa específica]
+- [ ] 1.2 [Tarefa específica]
+
+## 2. Verificar
+
+- [ ] 2.1 [Etapa de verificação]
+
+---
+
+Cada checkbox se torna uma unidade de trabalho na fase de apply. Pronto para implementar?
+\`\`\`
+
+**PAUSA** - Aguarde o usuário confirmar que está pronto para implementar.
+
+Salve em \`openspec/changes/<nome>/tasks.md\`.
+
+---
+
+## Fase 9: Apply (Implementação)
+
+**EXPLIQUE:**
+\`\`\`
+## Implementação
+
+Agora implementamos cada tarefa, marcando-as à medida que avançamos. Anunciarei cada uma e ocasionalmente notarei como os specs/design informaram a abordagem.
+\`\`\`
+
+**FAÇA:** Para cada tarefa:
+
+1. Anuncie: "Trabalhando na tarefa N: [descrição]"
+2. Implemente a mudança na codebase
+3. Referencie specs/design naturalmente: "O spec diz X, então estou fazendo Y"
+4. Marque como concluída em tasks.md: \`- [ ]\` → \`- [x]\`
+5. Breve status: "✓ Tarefa N concluída"
+
+Mantenha a narração leve - não explique cada linha de código.
+
+Após todas as tarefas:
+
+\`\`\`
+## Implementação Concluída
+
+Todas as tarefas concluídas:
+- [x] Tarefa 1
+- [x] Tarefa 2
+- [x] ...
+
+A change está implementada! Mais um passo - vamos arquivá-la.
+\`\`\`
+
+---
+
+## Fase 10: Archive
+
+**EXPLIQUE:**
+\`\`\`
+## Arquivamento
+
+Quando uma change está completa, nós a arquivamos. Isso a move de \`openspec/changes/\` para \`openspec/changes/archive/YYYY-MM-DD-<nome>/\`.
+
+As changes arquivadas se tornam o histórico de decisões do seu projeto - você sempre pode encontrá-las depois para entender por que algo foi construído de certa forma.
+\`\`\`
+
+**FAÇA:**
+\`\`\`bash
+openspec archive "<nome>"
+\`\`\`
+
+**MOSTRE:**
+\`\`\`
+Arquivado em: \`openspec/changes/archive/YYYY-MM-DD-<nome>/\`
+
+A change agora faz parte do histórico do seu projeto. O código está na sua codebase, o registro de decisão está preservado.
+\`\`\`
+
+---
+
+## Fase 11: Recapitulação e Próximos Passos
+
+\`\`\`
+## Parabéns!
+
+Você acabou de completar um ciclo completo do BR-OpenSpec:
+
+1. **Explore** - Pensou sobre o problema
+2. **New** - Criou um container de change
+3. **Proposal** - Capturou POR QUE
+4. **Specs** - Definiu O QUE em detalhes
+5. **Design** - Decidiu COMO
+6. **Tasks** - Quebrou em passos
+7. **Apply** - Implementou o trabalho
+8. **Archive** - Preservou o registro
+
+Este mesmo ritmo funciona para qualquer tamanho de change - uma pequena correção ou uma funcionalidade principal.
+
+---
+
+## Referência de Comandos
+
+**Workflow principal:**
+
+ | Comando           | O que faz                                   |
+ |-------------------|---------------------------------------------|
+ | \`/opsx:propose\` | Cria uma change e gera todos os artifacts   |
+ | \`/opsx:explore\` | Pensa sobre problemas antes/durante o trabalho |
+ | \`/opsx:apply\`   | Implementa tarefas de uma change            |
+ | \`/opsx:archive\` | Arquiva uma change concluída                |
+
+**Comandos adicionais:**
+
+ | Comando            | O que faz                                              |
+ |--------------------|--------------------------------------------------------|
+ | \`/opsx:new\`      | Inicia uma nova change, passo a passo pelos artifacts  |
+ | \`/opsx:continue\` | Continua trabalhando em uma change existente           |
+ | \`/opsx:ff\`       | Fast-forward: cria todos os artifacts de uma vez       |
+ | \`/opsx:verify\`   | Verifica se implementação corresponde aos artifacts    |
+
+---
+
+## E Agora?
+
+Experimente \`/opsx:propose\` em algo que você realmente quer construir. Você já pegou o ritmo!
+\`\`\`
+
+---
+
+## Tratamento de Saída Graciosa
+
+### Usuário quer parar no meio do caminho
+
+Se o usuário disser que precisa parar, quer pausar, ou parecer desengajado:
+
+\`\`\`
+Sem problema! Sua change está salva em \`openspec/changes/<nome>/\`.
+
+Para retomar de onde paramos depois:
+- \`/opsx:continue <nome>\` - Retoma a criação de artifacts
+- \`/opsx:apply <nome>\` - Pula para implementação (se tasks existirem)
+
+O trabalho não será perdido. Volte quando estiver pronto.
+\`\`\`
+
+Saia graciosamente sem pressão.
+
+### Usuário apenas quer a referência de comandos
+
+Se o usuário disser que apenas quer ver os comandos ou pular o tutorial:
+
+\`\`\`
+## Referência Rápida do BR-OpenSpec
+
+**Workflow principal:**
+
+ | Comando                  | O que faz                                   |
+ |--------------------------|---------------------------------------------|
+ | \`/opsx:propose <nome>\` | Cria uma change e gera todos os artifacts   |
+ | \`/opsx:explore\`        | Pensa sobre problemas (sem mudanças de código) |
+ | \`/opsx:apply <nome>\`   | Implementa tarefas                          |
+ | \`/opsx:archive <nome>\` | Arquiva quando concluído                    |
+
+**Comandos adicionais:**
+
+ | Comando                   | O que faz                        |
+ |---------------------------|----------------------------------|
+ | \`/opsx:new <nome>\`      | Inicia uma nova change, passo a passo |
+ | \`/opsx:continue <nome>\` | Continua uma change existente    |
+ | \`/opsx:ff <nome>\`       | Fast-forward: todos os artifacts de uma vez |
+ | \`/opsx:verify <nome>\`   | Verifica implementação           |
+
+Experimente \`/opsx:propose\` para iniciar sua primeira change.
+\`\`\`
+
+Saia graciosamente.
+
+---
+
+## Guardrails
+
+- **Siga o padrão EXPLICAR → FAZER → MOSTRAR → PAUSA** nas transições-chave (após explore, após rascunho de proposal, após tasks, após archive)
+- **Mantenha a narração leve** durante a implementação - ensine sem pregar
+- **Não pule fases** mesmo se a change for pequena - o objetivo é ensinar o workflow
+- **Pause para confirmação** nos pontos marcados, mas não exagere nas pausas
+- **Trate saídas graciosamente** - nunca pressione o usuário a continuar
+- **Use tarefas reais da codebase** - não simule ou use exemplos falsos
+- **Ajuste o escopo gentilmente** - guie para tarefas menores mas respeite a escolha do usuário`,
+};
+
+
+// ═══════════════════════════════════════════════════════════
+// Templates de Workflow — Verificar Change (src/core/templates/workflows/verify-change.ts)
+// ═══════════════════════════════════════════════════════════
+
+export const VERIFY_CHANGE_TEMPLATE_MESSAGES = {
+  skillDescription: 'Verifica se a implementação corresponde aos artifacts da change. Use quando o usuário quiser validar que a implementação está completa, correta e coerente antes de arquivar.',
+  skillCompatibility: 'Requer openspec CLI.',
+  opsxDescription: 'Verifica se a implementação corresponde aos artifacts da change antes de arquivar',
+  skillInstructions: `Verifica se uma implementação corresponde aos artifacts da change (specs, tasks, design).
+
+**Entrada**: Opcionalmente especifique um nome de change. Se omitido, verifique se pode ser inferido do contexto da conversa. Se vago ou ambíguo, você DEVE solicitar as changes disponíveis.
+
+**Passos**
+
+1. **Se nenhum nome de change for fornecido, solicite a seleção**
+
+   Execute \`openspec list --json\` para obter as changes disponíveis. Use a ferramenta **AskUserQuestion** para permitir que o usuário selecione.
+
+   Mostre as changes que possuem tarefas de implementação (o artifact tasks existe).
+   Inclua o schema usado para cada change, se disponível.
+   Marque as changes com tarefas incompletas como "(Em Progresso)".
+
+   **IMPORTANTE**: NÃO adivinhe ou selecione automaticamente uma change. Sempre deixe o usuário escolher.
+
+2. **Verifique o status para entender o schema**
+   \`\`\`bash
+   openspec status --change "<nome>" --json
+   \`\`\`
+   Analise o JSON para entender:
+   - \`schemaName\`: O workflow sendo usado (por exemplo, "spec-driven")
+   - Quais artifacts existem para esta change
+
+3. **Obtenha o diretório da change e carregue os artifacts**
+
+   \`\`\`bash
+   openspec instructions apply --change "<nome>" --json
+   \`\`\`
+
+   Isso retorna o diretório da change e \`contextFiles\` (artifact ID -> array de caminhos de arquivos concretos). Leia todos os artifacts disponíveis de \`contextFiles\`.
+
+4. **Inicialize a estrutura do relatório de verificação**
+
+   Crie uma estrutura de relatório com três dimensões:
+   - **Completeness**: Acompanhe tasks e cobertura de specs
+   - **Correctness**: Acompanhe implementação de requisitos e cobertura de cenários
+   - **Coherence**: Acompanhe aderência ao design e consistência de padrões
+
+   Cada dimensão pode ter issues CRITICAL, WARNING ou SUGGESTION.
+
+5. **Verifique Completeness**
+
+   **Conclusão de Tasks**:
+   - Se \`contextFiles.tasks\` existir, leia cada caminho de arquivo nele
+   - Analise checkboxes: \`- [ ]\` (incompleto) vs \`- [x]\` (concluído)
+   - Conte tasks concluídas vs total
+   - Se houver tasks incompletas:
+     - Adicione issue CRITICAL para cada task incompleta
+     - Recomendação: "Complete task: <descrição>" ou "Mark as done if already implemented"
+
+   **Cobertura de Specs**:
+   - Se delta specs existirem em \`openspec/changes/<nome>/specs/\`:
+     - Extraia todos os requisitos (marcados com "### Requirement:")
+     - Para cada requisito:
+       - Procure no codebase por palavras-chave relacionadas ao requisito
+       - Avalie se a implementação provavelmente existe
+     - Se requisitos parecerem não implementados:
+       - Adicione issue CRITICAL: "Requirement not found: <nome do requisito>"
+       - Recomendação: "Implement requirement X: <descrição>"
+
+6. **Verifique Correctness**
+
+   **Mapeamento de Implementação de Requisitos**:
+   - Para cada requisito dos delta specs:
+     - Procure no codebase por evidências de implementação
+     - Se encontrado, anote os caminhos de arquivo e intervalos de linha
+     - Avalie se a implementação corresponde à intenção do requisito
+     - Se divergência for detectada:
+       - Adicione WARNING: "Implementation may diverge from spec: <detalhes>"
+       - Recomendação: "Review <arquivo>:<linhas> contra requirement X"
+
+   **Cobertura de Cenários**:
+   - Para cada cenário nos delta specs (marcado com "#### Scenario:"):
+     - Verifique se as condições são tratadas no código
+     - Verifique se existem testes cobrindo o cenário
+     - Se o cenário parecer não coberto:
+       - Adicione WARNING: "Scenario not covered: <nome do cenário>"
+       - Recomendação: "Add test or implementation for scenario: <descrição>"
+
+7. **Verifique Coherence**
+
+   **Aderência ao Design**:
+   - Se \`contextFiles.design\` existir:
+     - Extraia decisões-chave (procure por seções como "Decision:", "Approach:", "Architecture:")
+     - Verifique se a implementação segue essas decisões
+     - Se contradição for detectada:
+       - Adicione WARNING: "Design decision not followed: <decisão>"
+       - Recomendação: "Update implementation or revise design.md to match reality"
+   - Se não houver design.md: Pule a verificação de aderência ao design, anote "No design.md to verify against"
+
+   **Consistência de Padrões de Código**:
+   - Revise o novo código quanto à consistência com os padrões do projeto
+   - Verifique nomenclatura de arquivos, estrutura de diretórios, estilo de código
+   - Se houver desvios significativos:
+     - Adicione SUGGESTION: "Code pattern deviation: <detalhes>"
+     - Recomendação: "Consider following project pattern: <exemplo>"
+
+8. **Gere o Relatório de Verificação**
+
+   **Scorecard de Resumo**:
+   \`\`\`
+   ## Verification Report: <nome-change>
+
+   ### Summary
+   | Dimension    | Status           |
+   |--------------|------------------|
+   | Completeness | X/Y tasks, N reqs|
+   | Correctness  | M/N reqs covered |
+   | Coherence    | Followed/Issues  |
+   \`\`\`
+
+   **Issues por Prioridade**:
+
+   1. **CRITICAL** (Deve corrigir antes de arquivar):
+      - Tasks incompletas
+      - Implementações de requisitos ausentes
+      - Cada uma com recomendação específica e acionável
+
+   2. **WARNING** (Deveria corrigir):
+      - Divergências de spec/design
+      - Cobertura de cenário ausente
+      - Cada uma com recomendação específica
+
+   3. **SUGGESTION** (Bom corrigir):
+      - Inconsistências de padrão
+      - Melhorias menores
+      - Cada uma com recomendação específica
+
+   **Avaliação Final**:
+   - Se houver issues CRITICAL: "X critical issue(s) found. Fix before archiving."
+   - Se houver apenas warnings: "No critical issues. Y warning(s) to consider. Ready for archive (with noted improvements)."
+   - Se tudo estiver claro: "All checks passed. Ready for archive."
+
+**Heurísticas de Verificação**
+
+- **Completeness**: Foque em itens de checklist objetivos (checkboxes, lista de requisitos)
+- **Correctness**: Use busca por palavras-chave, análise de caminhos de arquivo, inferência razoável — não exija certeza perfeita
+- **Coherence**: Procure inconsistências gritantes, não seja meticuloso com estilo
+- **False Positives**: Quando incerto, prefira SUGGESTION ao invés de WARNING, WARNING ao invés de CRITICAL
+- **Actionability**: Cada issue deve ter uma recomendação específica com referências de arquivo/linha quando aplicável
+
+**Degradação Graciosa**
+
+- Se apenas tasks.md existir: verifique apenas a conclusão de tasks, pule verificações de spec/design
+- Se tasks + specs existirem: verifique completeness e correctness, pule design
+- Se todos os artifacts existirem: verifique as três dimensões
+- Sempre anote quais verificações foram puladas e por quê
+
+**Formato de Saída**
+
+Use markdown claro com:
+- Tabela para scorecard de resumo
+- Listas agrupadas para issues (CRITICAL/WARNING/SUGGESTION)
+- Referências de código no formato: \`arquivo.ts:123\`
+- Recomendações específicas e acionáveis
+- Sem sugestões vagas como "consider reviewing"`,
+  opsxContent: `Verifica se uma implementação corresponde aos artifacts da change (specs, tasks, design).
+
+**Entrada**: Opcionalmente especifique um nome de change após \`/opsx:verify\` (por exemplo, \`/opsx:verify add-auth\`). Se omitido, verifique se pode ser inferido do contexto da conversa. Se vago ou ambíguo, você DEVE solicitar as changes disponíveis.
+
+**Passos**
+
+1. **Se nenhum nome de change for fornecido, solicite a seleção**
+
+   Execute \`openspec list --json\` para obter as changes disponíveis. Use a ferramenta **AskUserQuestion** para permitir que o usuário selecione.
+
+   Mostre as changes que possuem tarefas de implementação (o artifact tasks existe).
+   Inclua o schema usado para cada change, se disponível.
+   Marque as changes com tarefas incompletas como "(Em Progresso)".
+
+   **IMPORTANTE**: NÃO adivinhe ou selecione automaticamente uma change. Sempre deixe o usuário escolher.
+
+2. **Verifique o status para entender o schema**
+   \`\`\`bash
+   openspec status --change "<nome>" --json
+   \`\`\`
+   Analise o JSON para entender:
+   - \`schemaName\`: O workflow sendo usado (por exemplo, "spec-driven")
+   - Quais artifacts existem para esta change
+
+3. **Obtenha o diretório da change e carregue os artifacts**
+
+   \`\`\`bash
+   openspec instructions apply --change "<nome>" --json
+   \`\`\`
+
+   Isso retorna o diretório da change e \`contextFiles\` (artifact ID -> array de caminhos de arquivos concretos). Leia todos os artifacts disponíveis de \`contextFiles\`.
+
+4. **Inicialize a estrutura do relatório de verificação**
+
+   Crie uma estrutura de relatório com três dimensões:
+   - **Completeness**: Acompanhe tasks e cobertura de specs
+   - **Correctness**: Acompanhe implementação de requisitos e cobertura de cenários
+   - **Coherence**: Acompanhe aderência ao design e consistência de padrões
+
+   Cada dimensão pode ter issues CRITICAL, WARNING ou SUGGESTION.
+
+5. **Verifique Completeness**
+
+   **Conclusão de Tasks**:
+   - Se \`contextFiles.tasks\` existir, leia cada caminho de arquivo nele
+   - Analise checkboxes: \`- [ ]\` (incompleto) vs \`- [x]\` (concluído)
+   - Conte tasks concluídas vs total
+   - Se houver tasks incompletas:
+     - Adicione issue CRITICAL para cada task incompleta
+     - Recomendação: "Complete task: <descrição>" ou "Mark as done if already implemented"
+
+   **Cobertura de Specs**:
+   - Se delta specs existirem em \`openspec/changes/<nome>/specs/\`:
+     - Extraia todos os requisitos (marcados com "### Requirement:")
+     - Para cada requisito:
+       - Procure no codebase por palavras-chave relacionadas ao requisito
+       - Avalie se a implementação provavelmente existe
+     - Se requisitos parecerem não implementados:
+       - Adicione issue CRITICAL: "Requirement not found: <nome do requisito>"
+       - Recomendação: "Implement requirement X: <descrição>"
+
+6. **Verifique Correctness**
+
+   **Mapeamento de Implementação de Requisitos**:
+   - Para cada requisito dos delta specs:
+     - Procure no codebase por evidências de implementação
+     - Se encontrado, anote os caminhos de arquivo e intervalos de linha
+     - Avalie se a implementação corresponde à intenção do requisito
+     - Se divergência for detectada:
+       - Adicione WARNING: "Implementation may diverge from spec: <detalhes>"
+       - Recomendação: "Review <arquivo>:<linhas> contra requirement X"
+
+   **Cobertura de Cenários**:
+   - Para cada cenário nos delta specs (marcado com "#### Scenario:"):
+     - Verifique se as condições são tratadas no código
+     - Verifique se existem testes cobrindo o cenário
+     - Se o cenário parecer não coberto:
+       - Adicione WARNING: "Scenario not covered: <nome do cenário>"
+       - Recomendação: "Add test or implementation for scenario: <descrição>"
+
+7. **Verifique Coherence**
+
+   **Aderência ao Design**:
+   - Se \`contextFiles.design\` existir:
+     - Extraia decisões-chave (procure por seções como "Decision:", "Approach:", "Architecture:")
+     - Verifique se a implementação segue essas decisões
+     - Se contradição for detectada:
+       - Adicione WARNING: "Design decision not followed: <decisão>"
+       - Recomendação: "Update implementation or revise design.md to match reality"
+   - Se não houver design.md: Pule a verificação de aderência ao design, anote "No design.md to verify against"
+
+   **Consistência de Padrões de Código**:
+   - Revise o novo código quanto à consistência com os padrões do projeto
+   - Verifique nomenclatura de arquivos, estrutura de diretórios, estilo de código
+   - Se houver desvios significativos:
+     - Adicione SUGGESTION: "Code pattern deviation: <detalhes>"
+     - Recomendação: "Consider following project pattern: <exemplo>"
+
+8. **Gere o Relatório de Verificação**
+
+   **Scorecard de Resumo**:
+   \`\`\`
+   ## Verification Report: <nome-change>
+
+   ### Summary
+   | Dimension    | Status           |
+   |--------------|------------------|
+   | Completeness | X/Y tasks, N reqs|
+   | Correctness  | M/N reqs covered |
+   | Coherence    | Followed/Issues  |
+   \`\`\`
+
+   **Issues por Prioridade**:
+
+   1. **CRITICAL** (Deve corrigir antes de arquivar):
+      - Tasks incompletas
+      - Implementações de requisitos ausentes
+      - Cada uma com recomendação específica e acionável
+
+   2. **WARNING** (Deveria corrigir):
+      - Divergências de spec/design
+      - Cobertura de cenário ausente
+      - Cada uma com recomendação específica
+
+   3. **SUGGESTION** (Bom corrigir):
+      - Inconsistências de padrão
+      - Melhorias menores
+      - Cada uma com recomendação específica
+
+   **Avaliação Final**:
+   - Se houver issues CRITICAL: "X critical issue(s) found. Fix before archiving."
+   - Se houver apenas warnings: "No critical issues. Y warning(s) to consider. Ready for archive (with noted improvements)."
+   - Se tudo estiver claro: "All checks passed. Ready for archive."
+
+**Heurísticas de Verificação**
+
+- **Completeness**: Foque em itens de checklist objetivos (checkboxes, lista de requisitos)
+- **Correctness**: Use busca por palavras-chave, análise de caminhos de arquivo, inferência razoável — não exija certeza perfeita
+- **Coherence**: Procure inconsistências gritantes, não seja meticuloso com estilo
+- **False Positives**: Quando incerto, prefira SUGGESTION ao invés de WARNING, WARNING ao invés de CRITICAL
+- **Actionability**: Cada issue deve ter uma recomendação específica com referências de arquivo/linha quando aplicável
+
+**Degradação Graciosa**
+
+- Se apenas tasks.md existir: verifique apenas a conclusão de tasks, pule verificações de spec/design
+- Se tasks + specs existirem: verifique completeness e correctness, pule design
+- Se todos os artifacts existirem: verifique as três dimensões
+- Sempre anote quais verificações foram puladas e por quê
+
+**Formato de Saída**
+
+Use markdown claro com:
+- Tabela para scorecard de resumo
+- Listas agrupadas para issues (CRITICAL/WARNING/SUGGESTION)
+- Referências de código no formato: \`arquivo.ts:123\`
+- Recomendações específicas e acionáveis
+- Sem sugestões vagas como "consider reviewing"`,
 };

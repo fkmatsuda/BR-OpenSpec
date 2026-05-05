@@ -667,7 +667,7 @@ export function registerSchemaCommand(program: Command): void {
     .description(SCHEMA_MESSAGES.createSchema)
     .option('--json', SCHEMA_MESSAGES.outputAsJson)
     .option('--description <text>', SCHEMA_MESSAGES.descriptionOption)
-    .option('--artifacts <list>', 'Comma-separated artifact IDs (proposal,specs,design,tasks)')
+    .option('--artifacts <list>', SCHEMA_MESSAGES.artifactsOption)
     .option('--default', SCHEMA_MESSAGES.defaultOption)
     .option('--no-default', SCHEMA_MESSAGES.noDefaultOption)
     .option('--force', SCHEMA_MESSAGES.forceOption2)
@@ -738,7 +738,7 @@ export function registerSchemaCommand(program: Command): void {
 
           description = await input({
             message: CONFIG_MESSAGES.schemaDescription,
-            default: `Custom workflow schema for ${name}`,
+            default: SCHEMA_MESSAGES.defaultSchemaDescription(name),
           });
 
           const artifactChoices = DEFAULT_ARTIFACTS.map((a) => ({
@@ -771,7 +771,7 @@ export function registerSchemaCommand(program: Command): void {
           }
         } else {
           // Non-interactive mode
-          description = options?.description || `Custom workflow schema for ${name}`;
+          description = options?.description || SCHEMA_MESSAGES.defaultSchemaDescription(name);
 
           if (options?.artifacts) {
             selectedArtifactIds = options.artifacts.split(',').map((a) => a.trim());

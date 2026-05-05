@@ -128,9 +128,11 @@ Esta skill permite arquivar changes em lote, tratando conflitos de specs de form
 
    b. **Realize o arquivamento**:
       \`\`\`bash
-      mkdir -p openspec/changes/archive
-      mv openspec/changes/<nome> openspec/changes/archive/YYYY-MM-DD-<nome>
+      openspec archive <nome>
       \`\`\`
+
+      Se precisar manipular programaticamente, construa os caminhos com \`path.join()\`
+      ou \`path.resolve()\` e use \`fs.rename()\` — evite comandos shell e separadores \`/\` hardcoded.
 
    c. **Rastreie o resultado** para cada change:
       - Sucesso: arquivado com sucesso
@@ -375,9 +377,11 @@ Esta skill permite arquivar changes em lote, tratando conflitos de specs de form
 
    b. **Realize o arquivamento**:
       \`\`\`bash
-      mkdir -p openspec/changes/archive
-      mv openspec/changes/<nome> openspec/changes/archive/YYYY-MM-DD-<nome>
+      openspec archive <nome>
       \`\`\`
+
+      Se precisar manipular programaticamente, construa os caminhos com \`path.join()\`
+      ou \`path.resolve()\` e use \`fs.rename()\` — evite comandos shell e separadores \`/\` hardcoded.
 
    c. **Rastreie o resultado** para cada change:
       - Sucesso: arquivado com sucesso

@@ -122,11 +122,11 @@ export function registerSpecCommand(rootProgram: typeof program) {
   specCommand
     .command('show [spec-id]')
     .description(CLI_DESCRIPTIONS.specShow)
-    .option('--json', 'Saída como JSON')
-    .option('--requirements', 'Somente JSON: Exibe apenas requisitos (exclui cenários)')
-    .option('--no-scenarios', 'Somente JSON: Exclui conteúdo de cenários')
-    .option('-r, --requirement <id>', 'Somente JSON: Exibe requisito específico pelo ID (base 1)')
-    .option('--no-interactive', 'Desativa prompts interativos')
+    .option('--json', CLI_DESCRIPTIONS.specShowJson)
+    .option('--requirements', CLI_DESCRIPTIONS.specShowRequirements)
+    .option('--no-scenarios', CLI_DESCRIPTIONS.specShowNoScenarios)
+    .option('-r, --requirement <id>', CLI_DESCRIPTIONS.specShowRequirement)
+    .option('--no-interactive', CLI_DESCRIPTIONS.specShowNoInteractive)
     .action(async (specId: string | undefined, options: ShowOptions & { noInteractive?: boolean }) => {
       try {
         const cmd = new SpecCommand();
@@ -140,8 +140,8 @@ export function registerSpecCommand(rootProgram: typeof program) {
   specCommand
     .command('list')
     .description(CLI_DESCRIPTIONS.specList)
-    .option('--json', 'Saída como JSON')
-    .option('--long', 'Exibe id e título com contagens')
+    .option('--json', CLI_DESCRIPTIONS.specListJson)
+    .option('--long', CLI_DESCRIPTIONS.specListLong)
     .action((options: { json?: boolean; long?: boolean }) => {
       try {
         if (!existsSync(SPECS_DIR)) {
@@ -199,9 +199,9 @@ export function registerSpecCommand(rootProgram: typeof program) {
   specCommand
     .command('validate [spec-id]')
     .description(CLI_DESCRIPTIONS.specValidate)
-    .option('--strict', 'Ativa modo de validação estrita')
-    .option('--json', 'Saída do relatório de validação como JSON')
-    .option('--no-interactive', 'Desativa prompts interativos')
+    .option('--strict', CLI_DESCRIPTIONS.specValidateStrict)
+    .option('--json', CLI_DESCRIPTIONS.specValidateJson)
+    .option('--no-interactive', CLI_DESCRIPTIONS.specValidateNoInteractive)
     .action(async (specId: string | undefined, options: { strict?: boolean; json?: boolean; noInteractive?: boolean }) => {
       try {
         if (!specId) {
