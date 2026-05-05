@@ -62,7 +62,7 @@ export class ArchiveCommand {
     try {
       await fs.access(changesDir);
     } catch {
-      throw new Error("No OpenSpec changes directory found. Run 'openspec init' first.");
+      throw new Error(ARCHIVE_MESSAGES.noChangesDir);
     }
 
     // Get change name interactively if not provided
@@ -83,8 +83,11 @@ export class ArchiveCommand {
       if (!stat.isDirectory()) {
         throw new Error(ARCHIVE_MESSAGES.changeNotFound(changeName));
       }
-    } catch {
-      throw new Error(ARCHIVE_MESSAGES.changeNotFound(changeName));
+    } catch (err: any) {
+      if (err.code === 'ENOENT') {
+        throw new Error(ARCHIVE_MESSAGES.changeNotFound(changeName));
+      }
+      throw err;
     }
 
     const skipValidation = options.validate === false || options.noValidate === true;

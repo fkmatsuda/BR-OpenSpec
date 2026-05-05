@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ArchiveCommand } from '../../src/core/archive.js';
+import { ARCHIVE_MESSAGES } from '../../src/messages/index.js';
 import { Validator } from '../../src/core/validation/validator.js';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -778,7 +779,7 @@ E1 updated`);
       
       await expect(
         archiveCommand.execute('any-change', { yes: true })
-      ).rejects.toThrow("No OpenSpec changes directory found. Run 'openspec init' first.");
+      ).rejects.toThrow(ARCHIVE_MESSAGES.noChangesDir);
     });
   });
 

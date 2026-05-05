@@ -301,7 +301,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
           {
             name: 'yes',
             short: 'y',
-            description: CLI_DESCRIPTIONS.archiveYes,
+            description: CLI_DESCRIPTIONS.yesSkipConfirm,
           },
         ],
       },
@@ -369,7 +369,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
           {
             name: 'yes',
             short: 'y',
-            description: CLI_DESCRIPTIONS.archiveYes,
+            description: CLI_DESCRIPTIONS.yesSkipConfirm,
           },
         ],
       },

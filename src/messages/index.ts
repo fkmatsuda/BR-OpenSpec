@@ -76,6 +76,9 @@ export const CLI_DESCRIPTIONS = {
 
   // Opções — archive
   archiveYes: 'Pula confirmações interativas',
+
+  // Opções genéricas — yes
+  yesSkipConfirm: 'Pula confirmações interativas',
   archiveSkipSpecs: 'Ignora operações de atualização de especificação (útil para alterações de infraestrutura, ferramentas ou apenas documentação)',
   archiveNoValidate: 'Ignora validação (não recomendado, requer confirmação)',
 
