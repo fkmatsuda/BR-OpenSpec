@@ -167,6 +167,8 @@ export const CLI_MESSAGES = {
 export const CHANGE_MESSAGES = {
   selectChangeToShow: 'Selecione uma alteração para exibir',
   noChangeSpecifiedNoActive: 'Nenhuma alteração especificada. Nenhuma alteração ativa encontrada.',
+  missingWhySection: 'A alteração deve ter uma seção Why',
+  missingWhatChangesSection: 'A alteração deve ter uma seção What Changes',
   noChangeSpecifiedAvailable: (ids: string) => `Nenhuma alteração especificada. IDs disponíveis: ${ids}`,
   hintViewChanges: 'Dica: use "openspec change list" para ver as alterações disponíveis.',
   changeNotFound: (name: string, path: string) => `Alteração "${name}" não encontrada em ${path}`,
@@ -191,6 +193,8 @@ export const CHANGE_MESSAGES = {
 export const SPEC_MESSAGES = {
   selectSpecToShow: 'Selecione uma especificação para exibir',
   missingSpecId: 'Argumento obrigatório <spec-id> ausente',
+  missingPurposeSection: 'A especificação deve ter uma seção Purpose',
+  missingRequirementsSection: 'A especificação deve ter uma seção Requirements',
   specNotFound: (id: string) => `Especificação '${id}' não encontrada em openspec/specs/${id}/spec.md`,
   requirementsAndRequirementConflict: 'As opções --requirements e --requirement não podem ser usadas juntas',
   requirementNotFound: (id: string) => `Requisito ${id} não encontrado`,
@@ -310,6 +314,7 @@ export const VIEW_MESSAGES = {
   taskProgress: (completed: number, total: number, percentage: number) => `Progresso de Tarefas: ${completed}/${total} (${percentage}% concluído)`,
   requirementLabel: (count: number) => count === 1 ? 'requisito' : 'requisitos',
   listHint: (cmd: string) => `Use ${cmd} para visualizações detalhadas`,
+  listHintCommands: (cmd1: string, cmd2: string) => `Use ${cmd1} ou ${cmd2} para visualizações detalhadas`,
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -348,6 +353,7 @@ export const ARCHIVE_MESSAGES = {
   specsUpdatedSuccessfully: 'Especificações atualizadas com sucesso.',
   archiveAlreadyExists: (name: string) => `O arquivamento '${name}' já existe.`,
   changeArchived: (changeName: string, archiveName: string) => `Alteração '${changeName}' arquivada como '${archiveName}'.`,
+  removedRequirementsIgnored: (specName: string, count: number) => `⚠️  Aviso: ${specName} - ${count} requisito(s) REMOVED ignorado(s) para nova spec (nada a remover).`,
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -395,6 +401,9 @@ export const INIT_MESSAGES = {
   commandsSkipped: (tools: string) => `Comandos ignorados para: ${tools} (sem adaptador)`,
   removedCommands: (count: number) => `Removidos: ${count} arquivos de comando (entrega: skills)`,
   removedSkills: (count: number) => `Removidos: ${count} diretórios de skill (entrega: commands)`,
+  skillsAndCommandsCount: (skills: number, commands: number, dirs: string) => `${skills} skills e ${commands} commands em ${dirs}/`,
+  skillsCount: (skills: number, dirs: string) => `${skills} skills em ${dirs}/`,
+  commandsCount: (commands: number, dirs: string) => `${commands} commands em ${dirs}/`,
   configCreated: (schema: string) => `Config: openspec/config.yaml (schema: ${schema})`,
   configExists: (name: string) => `Config: openspec/${name} (existe)`,
   configSkipped: 'Config: ignorado (modo não interativo)',
@@ -439,6 +448,7 @@ export const TOOLS_MESSAGES = {
   removeOption: 'Remove ferramentas (IDs separados por vírgula ou "all")',
   cannotAddAndRemoveSame: (tools: string) => `Não é possível adicionar e remover as mesmas ferramentas: ${tools}`,
   noFlagNonInteractive: 'Nenhuma flag --add ou --remove foi fornecida e o terminal não é interativo.\n  Use --add <ferramentas> ou --remove <ferramentas> para operar não interativamente.',
+  addRemoveRequiresValue: 'A opção --add/--remove requer um valor. Use "all" ou uma lista de IDs de ferramentas separados por vírgula.',
   cannotCombineReserved: 'Não é possível combinar valores reservados "all" ou "none" com IDs de ferramentas específicos.',
   invalidTools: (invalid: string, available: string) => `Ferramenta(s) inválida(s): ${invalid}. Disponíveis: ${available}`,
 };
@@ -490,6 +500,11 @@ export const CONFIG_MESSAGES = {
   profileLabel: (profile: string | undefined, source: string) => `  perfil: ${profile ?? '?'} ${source}`,
   deliveryLabel: (delivery: string | undefined, source?: string) => source ? `  entrega: ${delivery ?? '?'} ${source}` : `  Entrega: ${delivery ?? '?'}`,
   workflowsLabel: (summary: string) => `  Fluxos de trabalho: ${summary}`,
+  workflowsSelectedCount: (count: number, profile: string) => `${count} selecionados (${profile})`,
+  workflowsAdded: (names: string) => `adicionados ${names}`,
+  workflowsRemoved: (names: string) => `removidos ${names}`,
+  workflowsDiffLabel: (changes: string) => `fluxos de trabalho: ${changes}`,
+  workflowLabel: (name: string) => `Fluxo de trabalho: ${name}`,
   coreWorkflowsNote: (workflows: string) => `  fluxos: ${workflows} (do perfil core)`,
   explicitWorkflowsNote: (workflows: string) => `  fluxos: ${workflows} (explícito)`,
   noWorkflowsNote: '  fluxos: (nenhum)',
@@ -568,14 +583,14 @@ export const SCHEMA_MESSAGES = {
   projectSchemasHeader: 'Esquemas do projeto:',
   userSchemasHeader: 'Esquemas do usuário:',
   packageSchemasHeader: 'Esquemas do pacote:',
-  shadowsLabel: (sources: string) => ` (shadows: ${sources})`,
+  shadowsLabel: (sources: string) => ` (sombras: ${sources})`,
   schemaNameRequired: 'Erro: Nome do esquema é obrigatório (ou use --all para listar todos os esquemas)',
   schemaNotFoundError: (name: string) => `Erro: Esquema '${name}' não encontrado`,
   availableSchemas: (schemas: string) => `Esquemas disponíveis: ${schemas}`,
   schemaLabel: (name: string) => `Esquema: ${name}`,
   sourceLabel: (source: string) => `Fonte: ${source}`,
   pathLabel: (path: string) => `Caminho: ${path}`,
-  shadowsHeader: 'Shadows:',
+  shadowsHeader: 'Sombras:',
   shadowEntry: (source: string, path: string) => `  ${source}: ${path}`,
   verboseOption: 'Mostra etapas detalhadas de validação',
   validatingEntry: (name: string) => `Validando ${name}...`,
@@ -663,6 +678,30 @@ export const COMPLETION_MESSAGES = {
   bashUninstalled: 'Script de autocomplete desinstalado com sucesso',
   bashFailedToInstall: (error: string) => `Falha ao instalar script de autocomplete: ${error}`,
   bashFailedToUninstall: (error: string) => `Falha ao desinstalar script de autocomplete: ${error}`,
+  bashScriptInstalled: 'Script de autocomplete instalado com sucesso.',
+  bashAddToBashrc: 'Para ativar o autocomplete, adicione o seguinte ao seu arquivo ~/.bashrc:',
+  bashSourceComment: '# Carrega os autocompletes do BR-OpenSpec',
+  bashThenRestartShell: (cmd: string) => `Depois reinicie o shell ou execute: ${cmd}`,
+  zshAlreadyInstalled: 'Script de autocomplete já está instalado (atualizado)',
+  zshAlreadyInstalledDetail: 'O script de autocomplete já está instalado e atualizado.',
+  zshAlreadyInstalledHint: 'Se o autocomplete não estiver funcionando, tente: exec zsh',
+  zshUpdatedWithBackup: 'Script de autocomplete atualizado com sucesso (versão anterior salva em backup)',
+  zshUpdated: 'Script de autocomplete atualizado com sucesso',
+  zshInstalledOhMyZsh: 'Script de autocomplete instalado com sucesso para Oh My Zsh',
+  zshInstalledWithZshrc: 'Script de autocomplete instalado e .zshrc configurado com sucesso',
+  zshInstalled: 'Script de autocomplete instalado com sucesso para Zsh',
+  zshFailedToInstall: (error: string) => `Falha ao instalar script de autocomplete: ${error}`,
+  zshOhMyZshFpathNote: 'Nota: Oh My Zsh normalmente carrega automaticamente os scripts de autocomplete do diretório custom/completions.',
+  zshOhMyZshFpathVerify: (dir: string) => `Verifique se ${dir} está no seu fpath executando:`,
+  zshOhMyZshFpathRestart: 'Se não for encontrado, o autocomplete pode não funcionar. Reinicie o shell para garantir que as alterações tenham efeito.',
+  zshOhMyZshInstalledDir: 'Script de autocomplete instalado no diretório de completions do Oh My Zsh.',
+  zshOhMyZshAutoActivate: 'O autocomplete deve ativar automaticamente.',
+  zshInstalledDir: 'Script de autocomplete instalado em ~/.zsh/completions/',
+  zshAddToZshrc: 'Para ativar o autocomplete, adicione o seguinte ao seu arquivo ~/.zshrc:',
+  zshFpathComment: '# Adiciona diretório de completions ao fpath',
+  zshCompinitComment: '# Inicializa o sistema de autocomplete',
+  zshThenRestartShell: (cmd: string) => `Depois reinicie o shell ou execute: ${cmd}`,
+  zshCheckExistingLines: (path: string) => `Verifique se estas linhas já existem em ${path} antes de adicioná-las.`,
   activeChange: 'alteração ativa',
   specification: 'especificação',
   archivedChange: 'alteração arquivada',
@@ -675,6 +714,7 @@ export const COMPLETION_MESSAGES = {
   warningCouldNotRead: (path: string, err: string) => `Aviso: Não foi possível ler ${path}: ${err}`,
   warningStartMarkerWithoutEnd: (path: string) => `Aviso: Marcador de início encontrado mas sem marcador de fim em ${path}`,
   warningCouldNotClean: (path: string, err: string) => `Aviso: Não foi possível limpar ${path}: ${err}`,
+  warningCouldNotRemoveLegacy: (path: string, err: string) => `Aviso: Não foi possível remover arquivo legado ${path}: ${err}`,
   powershellCompletionHeader: '# Script de autocompletar PowerShell para a CLI do BR-OpenSpec',
   powershellCompletionNote: '# Gerado automaticamente - não edite manualmente',
 };
@@ -886,7 +926,7 @@ export const WORKFLOW_MESSAGES = {
   instructionTitle: '### Instrução',
   // new-change.ts
   missingNameArgument: 'Argumento obrigatório <name> ausente',
-  creatingChange: (name: string, schema: string) => `Criando alteração '${name}'${schema}...`,
+  creatingChange: (name: string, schema?: string) => `Criando alteração '${name}'${schema ? ` com esquema '${schema}'` : ''}...`,
   createdChange: (name: string, schema: string) => `Alteração '${name}' criada em openspec/changes/${name}/ (esquema: ${schema})`,
   failedToCreateChange: (name: string) => `Falha ao criar alteração '${name}'`,
   // schemas.ts
@@ -900,7 +940,10 @@ export const WORKFLOW_MESSAGES = {
   invalidChangeName: (name: string, error: string) => `Nome de alteração inválido '${name}': ${error}`,
   changeNotFoundNoChanges: (name: string) => `Alteração '${name}' não encontrada. Nenhuma alteração existe. Crie uma com: openspec new change <nome>`,
   changeNotFound: (name: string, available: string) => `Alteração '${name}' não encontrada. Alterações disponíveis:\n  ${available}`,
-  schemaNotFound: (name: string, available: string) => `Esquema '${name}' não encontrado. Esquemas disponíveis:\n  ${available}`,
+  schemaNotFound: (name: string, available?: string) => available ? `Esquema '${name}' não encontrado. Esquemas disponíveis:\n  ${available}` : `Esquema '${name}' não encontrado`,
+  schemaReadFailed: (path: string, err: string) => `Falha ao ler o esquema em '${path}': ${err}`,
+  schemaInvalid: (path: string, err: string) => `Esquema inválido em '${path}': ${err}`,
+  schemaParseFailed: (path: string, err: string) => `Falha ao analisar o esquema em '${path}': ${err}`,
   // status.ts
   loadingChangeStatus: 'Carregando status da alteração...',
   noActiveChanges: 'Nenhuma alteração ativa. Crie uma com: openspec new change <nome>',
@@ -1989,4 +2032,12 @@ Use markdown claro com:
 - Referências de código no formato: \`arquivo.ts:123\`
 - Recomendações específicas e acionáveis
 - Sem sugestões vagas como "consider reviewing"`,
+};
+
+// ═══════════════════════════════════════════════════════════
+// Telemetry (src/telemetry/index.ts)
+// ═══════════════════════════════════════════════════════════
+
+export const TELEMETRY_MESSAGES = {
+  firstRunNotice: 'Aviso: o BR-OpenSpec coleta estatísticas de uso anônimas. Para optar por não participar, defina OPENSPEC_TELEMETRY=0',
 };

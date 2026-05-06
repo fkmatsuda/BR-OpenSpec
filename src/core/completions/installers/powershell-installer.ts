@@ -327,7 +327,7 @@ export class PowerShellInstaller {
       } catch (err: any) {
         if (err?.code !== 'ENOENT') {
           // Not a "file not found" error — log but continue
-          console.warn(`Warning: could not remove legacy file ${legacyPath}: ${err?.message ?? String(err)}`);
+          console.warn(COMPLETION_MESSAGES.warningCouldNotRemoveLegacy(legacyPath, err?.message ?? String(err)));
         }
       }
 

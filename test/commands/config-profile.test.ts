@@ -40,7 +40,7 @@ describe('diffProfileState workflow formatting', () => {
     );
 
     expect(diff.hasChanges).toBe(true);
-    expect(diff.lines).toEqual(['workflows: removed sync']);
+    expect(diff.lines).toEqual(['fluxos de trabalho: removidos sync']);
   });
 
   it('uses explicit labels when workflows are added and removed', async () => {
@@ -52,7 +52,7 @@ describe('diffProfileState workflow formatting', () => {
     );
 
     expect(diff.hasChanges).toBe(true);
-    expect(diff.lines).toEqual(['workflows: added verify; removed sync']);
+    expect(diff.lines).toEqual(['fluxos de trabalho: adicionados verify; removidos sync']);
   });
 });
 

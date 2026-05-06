@@ -311,18 +311,18 @@ export class BashInstaller {
     const completionsDir = path.dirname(installedPath);
 
     return [
-      'Completion script installed successfully.',
+      COMPLETION_MESSAGES.bashScriptInstalled,
       '',
-      'To enable completions, add the following to your ~/.bashrc file:',
+      COMPLETION_MESSAGES.bashAddToBashrc,
       '',
-      `  # Source BR-OpenSpec completions`,
+      `  ${COMPLETION_MESSAGES.bashSourceComment}`,
       `  if [ -d "${completionsDir}" ]; then`,
       `    for f in "${completionsDir}"/*; do`,
       '      [ -f "$f" ] && . "$f"',
       '    done',
       '  fi',
       '',
-      'Then restart your shell or run: exec bash',
+      COMPLETION_MESSAGES.bashThenRestartShell('exec bash'),
     ];
   }
 

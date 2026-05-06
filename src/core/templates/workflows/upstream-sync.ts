@@ -17,7 +17,7 @@ export function getUpstreamSyncSkillTemplate(): SkillTemplate {
 
 **Pré-requisitos**
 - O remote upstream deve estar configurado: 
-  \`git remote add upstream https://github.com/original/openspec.git\` (se ainda não estiver)
+  \`git remote add upstream https://github.com/<upstream-owner>/<upstream-repo>.git\` (se ainda não estiver)
 
 **Passos**
 

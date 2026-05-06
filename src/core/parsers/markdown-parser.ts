@@ -1,4 +1,5 @@
 import { Spec, Change, Requirement, Scenario, Delta, DeltaOperation } from '../schemas/index.js';
+import { SPEC_MESSAGES, CHANGE_MESSAGES } from '../../messages/index.js';
 
 export interface Section {
   level: number;
@@ -78,11 +79,11 @@ export class MarkdownParser {
     const requirementsSection = this.findSection(sections, 'Requirements');
     
     if (!purpose) {
-      throw new Error('A especificação deve ter uma seção Purpose');
+      throw new Error(SPEC_MESSAGES.missingPurposeSection);
     }
     
     if (!requirementsSection) {
-      throw new Error('A especificação deve ter uma seção Requirements');
+      throw new Error(SPEC_MESSAGES.missingRequirementsSection);
     }
 
     const requirements = this.parseRequirements(requirementsSection);
@@ -104,11 +105,11 @@ export class MarkdownParser {
     const whatChanges = this.findSection(sections, 'What Changes')?.content || '';
     
     if (!why) {
-      throw new Error('A alteração deve ter uma seção Why');
+      throw new Error(CHANGE_MESSAGES.missingWhySection);
     }
     
     if (!whatChanges) {
-      throw new Error('A alteração deve ter uma seção What Changes');
+      throw new Error(CHANGE_MESSAGES.missingWhatChangesSection);
     }
 
     const deltas = this.parseDeltas(whatChanges);

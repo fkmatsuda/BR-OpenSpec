@@ -29,7 +29,7 @@ function validateRequirementIndex(spec: Spec, requirementOpt?: string): number |
   if (!requirementOpt) return undefined;
   const index = Number.parseInt(requirementOpt, 10);
   if (!Number.isInteger(index) || index < 1 || index > spec.requirements.length) {
-    throw new Error(`Requirement ${requirementOpt} not found`);
+    throw new Error(SPEC_MESSAGES.requirementNotFound(requirementOpt));
   }
   return index - 1; // convert to 0-based
 }

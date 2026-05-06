@@ -40,8 +40,7 @@ export async function newChangeCommand(name: string | undefined, options: NewCha
     validateSchemaExists(options.schema, projectRoot);
   }
 
-  const schemaDisplay = options.schema ? ` com esquema '${options.schema}'` : '';
-  const spinner = ora(WORKFLOW_MESSAGES.creatingChange(name, schemaDisplay)).start();
+  const spinner = ora(WORKFLOW_MESSAGES.creatingChange(name, options.schema)).start();
 
   try {
     const result = await createChange(projectRoot, name, { schema: options.schema });

@@ -165,7 +165,7 @@ export class ChangeCommand {
           try {
             const tasksContent = await fs.readFile(tasksPath, 'utf-8');
             const { total, completed } = this.countTasks(tasksContent);
-            taskStatusText = ` [tasks ${completed}/${total}]`;
+            taskStatusText = ` ${CHANGE_MESSAGES.tasks(completed, total)}`;
           } catch (error) {
             if (process.env.DEBUG) {
               console.error(UTILS_MESSAGES.failedToReadTasks(tasksPath, error));

@@ -128,7 +128,7 @@ export function resolveSchema(name: string, projectRoot?: string): SchemaYaml {
   } catch (err) {
     const ioError = err instanceof Error ? err : new Error(String(err));
     throw new SchemaLoadError(
-      `Failed to read schema at '${schemaPath}': ${ioError.message}`,
+      WORKFLOW_MESSAGES.schemaReadFailed(schemaPath, ioError.message),
       schemaPath,
       ioError
     );
@@ -139,14 +139,14 @@ export function resolveSchema(name: string, projectRoot?: string): SchemaYaml {
   } catch (err) {
     if (err instanceof SchemaValidationError) {
       throw new SchemaLoadError(
-        `Invalid schema at '${schemaPath}': ${err.message}`,
+        WORKFLOW_MESSAGES.schemaInvalid(schemaPath, err.message),
         schemaPath,
         err
       );
     }
     const parseError = err instanceof Error ? err : new Error(String(err));
     throw new SchemaLoadError(
-      `Failed to parse schema at '${schemaPath}': ${parseError.message}`,
+      WORKFLOW_MESSAGES.schemaParseFailed(schemaPath, parseError.message),
       schemaPath,
       parseError
     );

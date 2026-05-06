@@ -136,7 +136,7 @@ describe('PowerShellInstaller', () => {
   });
 
   describe('configureProfile', () => {
-    const mockScriptPath = '/path/to/BROpenSpecCompletion.ps1';
+    const mockScriptPath = path.join('/path', 'to', 'BROpenSpecCompletion.ps1');
 
     // Note: OPENSPEC_NO_AUTO_CONFIG check is now handled in the install() method,
     // not in configureProfile() itself
@@ -545,7 +545,7 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
   });
 
   describe('encoding preservation', () => {
-    const mockScriptPath = '/path/to/BROpenSpecCompletion.ps1';
+    const mockScriptPath = path.join('/path', 'to', 'BROpenSpecCompletion.ps1');
     const utf16leBom = Buffer.from([0xff, 0xfe]);
     const utf8Bom = Buffer.from([0xef, 0xbb, 0xbf]);
 

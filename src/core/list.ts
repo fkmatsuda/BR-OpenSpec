@@ -189,7 +189,7 @@ export class ListCommand {
     const nameWidth = Math.max(...specs.map(s => s.id.length));
     for (const spec of specs) {
       const padded = spec.id.padEnd(nameWidth);
-      console.log(`${padding}${padded}     requirements ${spec.requirementCount}`);
+      console.log(`${padding}${padded}     ${LIST_MESSAGES.requirements(spec.requirementCount)}`);
     }
   }
 }

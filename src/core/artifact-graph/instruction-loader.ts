@@ -134,7 +134,7 @@ export function loadTemplate(
   const schemaDir = getSchemaDir(schemaName, projectRoot);
   if (!schemaDir) {
     throw new TemplateLoadError(
-      WORKFLOW_MESSAGES.schemaNotFound(schemaName, ''),
+      WORKFLOW_MESSAGES.schemaNotFound(schemaName),
       templatePath
     );
   }

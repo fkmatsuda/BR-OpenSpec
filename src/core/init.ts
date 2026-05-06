@@ -178,7 +178,7 @@ export class InitCommand {
       return this.profileOverride;
     }
 
-    throw new Error(`Invalid profile "${this.profileOverride}". Available profiles: core, custom`);
+    throw new Error(INIT_MESSAGES.invalidProfile(this.profileOverride));
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -651,11 +651,11 @@ export class InitCommand {
       const skillCount = delivery !== 'commands' ? getSkillTemplates(workflows).length : 0;
       const commandCount = delivery !== 'skills' ? getCommandContents(workflows).length : 0;
       if (skillCount > 0 && commandCount > 0) {
-        console.log(`${skillCount} skills and ${commandCount} commands in ${toolDirs}/`);
+        console.log(INIT_MESSAGES.skillsAndCommandsCount(skillCount, commandCount, toolDirs));
       } else if (skillCount > 0) {
-        console.log(`${skillCount} skills in ${toolDirs}/`);
+        console.log(INIT_MESSAGES.skillsCount(skillCount, toolDirs));
       } else if (commandCount > 0) {
-        console.log(`${commandCount} commands in ${toolDirs}/`);
+        console.log(INIT_MESSAGES.commandsCount(commandCount, toolDirs));
       }
     }
 

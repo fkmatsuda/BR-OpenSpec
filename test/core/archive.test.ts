@@ -158,7 +158,7 @@ The system SHALL support logo and backgroundColor fields for gift cards.
       
       // Verify warning was logged about REMOVED requirements being ignored
       expect(console.log).toHaveBeenCalledWith(
-        expect.stringContaining('Warning: gift-card - 2 REMOVED requirement(s) ignored for new spec (nothing to remove).')
+        expect.stringContaining('Aviso: gift-card - 2 requisito(s) REMOVED ignorado(s)')
       );
       
       // Verify spec was created with only ADDED requirements

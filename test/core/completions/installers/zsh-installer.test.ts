@@ -216,7 +216,7 @@ describe('ZshInstaller', () => {
       const result = await invalidInstaller.install(testScript);
 
       expect(result.success).toBe(false);
-      expect(result.message).toContain('Failed to install');
+      expect(result.message).toContain('Falha ao instalar');
     });
 
     it('should detect already-installed completion with identical content', async () => {
@@ -228,11 +228,11 @@ describe('ZshInstaller', () => {
       const secondResult = await installer.install(testScript);
 
       expect(secondResult.success).toBe(true);
-      expect(secondResult.message).toContain('already installed');
-      expect(secondResult.message).toContain('up to date');
+      expect(secondResult.message).toContain('já está instalado');
+      expect(secondResult.message).toContain('atualizado');
       expect(secondResult.backupPath).toBeUndefined();
       expect(secondResult.instructions).toBeDefined();
-      expect(secondResult.instructions!.join(' ')).toContain('already installed');
+      expect(secondResult.instructions!.join(' ')).toContain('já está instalado');
     });
 
     it('should update completion when content differs', async () => {
@@ -246,8 +246,8 @@ describe('ZshInstaller', () => {
       const secondResult = await installer.install(secondScript);
 
       expect(secondResult.success).toBe(true);
-      expect(secondResult.message).toContain('updated successfully');
-      expect(secondResult.message).toContain('backed up');
+      expect(secondResult.message).toContain('atualizado com sucesso');
+      expect(secondResult.message).toContain('backup');
       expect(secondResult.backupPath).toBeDefined();
 
       // Verify new content was written
@@ -697,7 +697,7 @@ describe('ZshInstaller', () => {
       const result = await installer.install(testScript);
 
       expect(result.success).toBe(true);
-      expect(result.message).toContain('.zshrc configured');
+      expect(result.message).toContain('.zshrc configurado');
     });
   });
 

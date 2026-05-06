@@ -128,7 +128,7 @@ export function printInstructionsText(instructions: ArtifactInstructions, isBloc
 
   // Task directive
   console.log('<task>');
-  console.log(`Create the ${artifactId} artifact for change "${changeName}".`);
+  console.log(WORKFLOW_MESSAGES.createArtifactTask(artifactId, changeName));
   console.log(description);
   console.log('</task>');
   console.log();
@@ -172,7 +172,7 @@ export function printInstructionsText(instructions: ArtifactInstructions, isBloc
 
   // Output location
   console.log('<output>');
-  console.log(`Write to: ${path.join(changeDir, outputPath)}`);
+  console.log(WORKFLOW_MESSAGES.writeTo(path.join(changeDir, outputPath)));
   console.log('</output>');
   console.log();
 

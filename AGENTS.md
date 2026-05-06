@@ -55,7 +55,7 @@ The build script (`build.js`) cleans `dist/` and invokes `tsc` directly. There i
 
 ## Project Structure
 
-```
+```text
 src/
   cli/           # CLI entry point (Commander.js program setup)
   commands/      # Command implementations (change, config, schema, show, spec, tools, validate, workflow)

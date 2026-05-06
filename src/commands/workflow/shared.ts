@@ -140,7 +140,7 @@ export async function validateChangeExists(
       );
     }
     throw new Error(
-      `Change '${changeName}' not found. Available changes:\n  ${available.join('\n  ')}`
+      WORKFLOW_MESSAGES.changeNotFound(changeName, available.join('\n  '))
     );
   }
 

@@ -226,9 +226,7 @@ export function getEligibleTools(): AIToolOption[] {
 export function resolveToolsArg(raw: string): string[] {
   const trimmed = raw.trim();
   if (trimmed.length === 0) {
-    throw new Error(
-      'The --add/--remove option requires a value. Use "all" or a comma-separated list of tool IDs.'
-    );
+    throw new Error(TOOLS_MESSAGES.addRemoveRequiresValue);
   }
 
   const availableTools = getToolsWithSkillsDir();

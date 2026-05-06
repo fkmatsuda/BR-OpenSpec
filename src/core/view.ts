@@ -76,7 +76,7 @@ export class ViewCommand {
     }
 
     console.log('\n' + '═'.repeat(60));
-    console.log(chalk.dim(`\n${VIEW_MESSAGES.listHint(`${chalk.white('openspec list --changes')} ou ${chalk.white('openspec list --specs')}`)}`));
+    console.log(chalk.dim(`\n${VIEW_MESSAGES.listHintCommands(chalk.white('openspec list --changes'), chalk.white('openspec list --specs'))}`));
   }
 
   private async getChangesData(openspecDir: string): Promise<{

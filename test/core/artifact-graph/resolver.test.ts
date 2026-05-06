@@ -227,7 +227,7 @@ version: [[[invalid yaml
       } catch (e) {
         expect(e).toBeInstanceOf(SchemaLoadError);
         const error = e as SchemaLoadError;
-        expect(error.message).toContain('Failed to parse');
+        expect(error.message).toContain('Falha ao analisar');
         expect(error.message).toContain(schemaPath);
       }
     });

@@ -98,7 +98,7 @@ Após completar todos os artifacts, resuma:
 - Crie TODOS os artifacts necessários para implementação (conforme definido pelo \`apply.requires\` do schema)
 - Sempre leia artifacts de dependência antes de criar um novo
 - Se o contexto estiver criticamente incerto, pergunte ao usuário - mas prefira tomar decisões razoáveis para manter o momento
-- Se uma change com aquele nome já existir, sugira continuar aquela change em vez disso
+- Se uma change com aquele nome já existir, pergunte se o usuário quer continuar ela ou criar uma nova
 - Verifique se cada arquivo do artifact existe após escrever antes de prosseguir para o próximo`,
     license: 'MIT',
     compatibility: 'Requer openspec CLI.',

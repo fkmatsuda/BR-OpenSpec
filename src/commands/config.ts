@@ -122,7 +122,7 @@ export function deriveProfileFromWorkflowSelection(selectedWorkflows: string[]):
  * Format a compact workflow summary for the profile header.
  */
 export function formatWorkflowSummary(workflows: readonly string[], profile: Profile): string {
-  return `${workflows.length} selected (${profile})`;
+  return CONFIG_MESSAGES.workflowsSelectedCount(workflows.length, profile);
 }
 
 function stableWorkflowOrder(workflows: readonly string[]): string[] {
@@ -173,12 +173,12 @@ export function diffProfileState(before: ProfileState, after: ProfileState): Pro
   if (added.length > 0 || removed.length > 0) {
     const tokens: string[] = [];
     if (added.length > 0) {
-      tokens.push(`added ${added.join(', ')}`);
+      tokens.push(CONFIG_MESSAGES.workflowsAdded(added.join(', ')));
     }
     if (removed.length > 0) {
-      tokens.push(`removed ${removed.join(', ')}`);
+      tokens.push(CONFIG_MESSAGES.workflowsRemoved(removed.join(', ')));
     }
-    lines.push(`workflows: ${tokens.join('; ')}`);
+    lines.push(CONFIG_MESSAGES.workflowsDiffLabel(tokens.join('; ')));
   }
 
   return {
@@ -567,7 +567,7 @@ export function registerConfigCommand(program: Command): void {
           const formatWorkflowChoice = (workflow: string) => {
             const metadata = WORKFLOW_PROMPT_META[workflow] ?? {
               name: workflow,
-              description: `Workflow: ${workflow}`,
+              description: CONFIG_MESSAGES.workflowLabel(workflow),
             };
             return {
               value: workflow,

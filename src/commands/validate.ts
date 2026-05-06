@@ -73,9 +73,6 @@ export class ValidateCommand {
         { name: VALIDATE_MESSAGES.optionAllChanges, value: 'changes' },
         { name: VALIDATE_MESSAGES.optionAllSpecs, value: 'specs' },
         { name: VALIDATE_MESSAGES.optionPickOne, value: 'one' },
-        { name: 'All changes', value: 'changes' },
-        { name: 'All specs', value: 'specs' },
-        { name: 'Pick a specific change or spec', value: 'one' },
       ],
     });
 

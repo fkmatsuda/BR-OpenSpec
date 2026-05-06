@@ -645,7 +645,7 @@ export function registerSchemaCommand(program: Command): void {
           console.log('\n' + SCHEMA_MESSAGES.sourceLabel2(sourceDir, sourceLocation));
           console.log(SCHEMA_MESSAGES.destinationLabel(destinationDir));
           console.log('\n' + SCHEMA_MESSAGES.customizeSchemaAt);
-          console.log(`  ${destinationDir}/schema.yaml`);
+          console.log(`  ${path.join(destinationDir, 'schema.yaml')}`);
         }
       } catch (error) {
         if (spinner) spinner.fail(SCHEMA_MESSAGES.forkFailed);

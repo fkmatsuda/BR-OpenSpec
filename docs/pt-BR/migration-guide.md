@@ -260,16 +260,16 @@ Ao migrar, seja seletivo. Pergunte a si mesmo: "A IA precisa disso para *cada* r
 Se não tiver certeza de como condensar seu project.md, pergunte ao seu assistente de IA:
 
 ```
-I'm migrating from BR-OpenSpec's old project.md to the new config.yaml format.
+Estou migrando do antigo project.md do BR-OpenSpec para o novo formato config.yaml.
 
-Here's my current project.md:
-[paste your project.md content]
+Aqui está o meu project.md atual:
+[cole aqui o conteúdo do seu project.md]
 
-Please help me create a config.yaml with:
-1. A concise `context:` section (this gets injected into every planning request, so keep it tight—focus on tech stack, key constraints, and conventions that often get ignored)
-2. `rules:` for specific artifacts if any content is artifact-specific (e.g., "use Given/When/Then" belongs in specs rules, not global context)
+Ajude-me a criar um config.yaml com:
+1. Uma seção `context:` concisa (é injetada em toda requisição de planejamento, então seja enxuto — foque em stack tecnológica, restrições principais e convenções que costumam ser ignoradas)
+2. `rules:` para artefatos específicos, se houver conteúdo voltado a um artefato (ex.: "use Given/When/Then" vai em regras de specs, não no contexto global)
 
-Leave out anything generic that AI models already know. Be ruthless about brevity.
+Elimine qualquer coisa genérica que os modelos de IA já conheçam. Seja implacável com a brevidade.
 ```
 
 A IA ajudará você a identificar o que é essencial versus o que pode ser removido.

@@ -287,7 +287,7 @@ export class UpdateCommand {
     // 15. List affected tools
     if (updatedTools.length > 0) {
       const toolDisplayNames = updatedTools;
-      console.log(chalk.dim(`Tools: ${toolDisplayNames.join(', ')}`));
+      console.log(chalk.dim(UPDATE_MESSAGES.toolsList(toolDisplayNames.join(', '))));
     }
 
     console.log();
